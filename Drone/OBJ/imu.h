@@ -1,11 +1,11 @@
-ï»¿#ifndef _imu_h_
+#ifndef _imu_h_
 #define _imu_h_
 
 /*
- * ???????
+ * IMU ×ËÌ¬Êı¾İÄ£¿é¡£
  *
- * ???????? InvenSense DMP ?? pitch / roll / yaw?
- * ???????????????????????
+ * µ±Ç°×ËÌ¬½ÇÖ÷ÒªÓÉ MPU6050 µÄ InvenSense DMP ½âËãµÃµ½£¬
+ * ±¾Ä£¿é¸ºÔğ±£´æ×ËÌ¬½Ç²¢Ìá¹©×ËÌ¬¶ÁÈ¡¡¢¾ØÕó¸üĞÂµÈ½Ó¿Ú¡£
  */
 
 typedef struct
@@ -19,18 +19,18 @@ extern Attitude att;
 extern float sin_pit, sin_rol, sin_yaw;
 extern float cos_pit, cos_rol, cos_yaw;
 
-/* ??? IMU ??????? */
+/* Ê¹ÓÃÔ­Ê¼ÍÓÂİÒÇ/¼ÓËÙ¶È¼ÆÊı¾İ¸üĞÂ IMU ×ËÌ¬¡£ */
 void IMUUpdate(float gx, float gy, float gz, float ax, float ay, float az);
 
-/* ???????????? */
+/* ¸üĞÂ×ËÌ¬Ğı×ª¾ØÕó¼°Æä×ªÖÃ¾ØÕó¡£ */
 void rotation_matrix(void);
 void rotation_matrix_T(void);
 void Matrix_ready(void);
 
-/* ???????? */
+/* ´Ó MPU6050 DMP ¶ÁÈ¡ roll/pitch/yaw ×ËÌ¬½Ç¡£ */
 void IMU(float *roll, float *pitch, float *yaw);
 
-/* ? MPU6050 ?????????? deg/s? */
+/* ½« MPU6050 ÍÓÂİÒÇÔ­Ê¼Êı¾İ×ª»»Îª½ÇËÙ¶È£¬µ¥Î»Îª deg/s¡£ */
 void GyroDataTransformDeg(float *gyroX, float *gyroY, float *gyroZ);
 
 #endif

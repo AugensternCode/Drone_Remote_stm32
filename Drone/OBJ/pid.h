@@ -1,51 +1,56 @@
-ï»¿#ifndef _pid_h_
+#ifndef _pid_h_
 #define _pid_h_
 
 #include "stm32f10x.h"
 
 /*
- * PID ??????
+ * PID ¿ØÖÆÆ÷Êı¾İ½á¹¹¡£
  *
- * Pid ????????
- * AllPid ???????????????????????
+ * Pid ±£´æµ¥¸ö PID ¿ØÖÆÆ÷µÄ²ÎÊıºÍÔËĞĞ×´Ì¬¡£
+ * AllPid ¼¯ÖĞ±£´æ×ËÌ¬¡¢½ÇËÙ¶È¡¢¸ß¶ÈºÍ¶¨µã¿ØÖÆÓÃµ½µÄ PID¡£
  */
 
 typedef struct
 {
-    float err;
-    float err_last;
-    float expect;
-    float feedback;
-    float kp;
-    float ki;
-    float kd;
-    float integral;
-    float integral_max;
-    float out;
-    float out_max;
+    float err;              /* µ±Ç°Îó²î */
+    float err_last;         /* ÉÏÒ»´ÎÎó²î */
+    float expect;           /* ÆÚÍûÖµ */
+    float feedback;         /* ·´À¡Öµ */
+    float kp;               /* ±ÈÀıÏµÊı */
+    float ki;               /* »ı·ÖÏµÊı */
+    float kd;               /* Î¢·ÖÏµÊı */
+    float integral;         /* »ı·ÖÏî */
+    float integral_max;     /* »ı·ÖÏŞ·ù */
+    float out;              /* PID Êä³ö */
+    float out_max;          /* Êä³öÏŞ·ù */
 } Pid;
 
 typedef struct
 {
-    Pid pitAngle;
-    Pid rolAngle;
-    Pid yawAngle;
-    Pid pitGyro;
-    Pid rolGyro;
-    Pid yawGyro;
-    Pid acc_high;
-    Pid vel_high;
-    Pid pos_high;
-    Pid acc_fix_x;
-    Pid vel_fix_x;
-    Pid pos_fix_x;
-    Pid acc_fix_y;
-    Pid vel_fix_y;
-    Pid pos_fix_y;
+    Pid pitAngle;           /* pitch ×ËÌ¬½ÇÍâ»· */
+    Pid rolAngle;           /* roll ×ËÌ¬½ÇÍâ»· */
+    Pid yawAngle;           /* yaw ×ËÌ¬½ÇÍâ»· */
+    Pid pitGyro;            /* pitch ½ÇËÙ¶ÈÄÚ»· */
+    Pid rolGyro;            /* roll ½ÇËÙ¶ÈÄÚ»· */
+    Pid yawGyro;            /* yaw ½ÇËÙ¶ÈÄÚ»· */
+    Pid acc_high;           /* ¸ß¶È¼ÓËÙ¶È»· */
+    Pid vel_high;           /* ¸ß¶ÈËÙ¶È»· */
+    Pid pos_high;           /* ¸ß¶ÈÎ»ÖÃ»· */
+    Pid acc_fix_x;          /* X ·½Ïò¼ÓËÙ¶È»· */
+    Pid vel_fix_x;          /* X ·½ÏòËÙ¶È»· */
+    Pid pos_fix_x;          /* X ·½ÏòÎ»ÖÃ»· */
+    Pid acc_fix_y;          /* Y ·½Ïò¼ÓËÙ¶È»· */
+    Pid vel_fix_y;          /* Y ·½ÏòËÙ¶È»· */
+    Pid pos_fix_y;          /* Y ·½ÏòÎ»ÖÃ»· */
 } AllPid;
 
+/* Ö´ĞĞÒ»´Î PID ÔËËã¡£ */
 float PidController(Pid *controller);
+
+/* ³õÊ¼»¯È«²¿ PID ²ÎÊı£¬±ØÒªÊ±´Ó Flash ¶ÁÈ¡±£´æÖµ¡£ */
 void AllPidInit(void);
+
+/* Çå³ıµ¥¸ö PID ¿ØÖÆÆ÷µÄ»ı·ÖÏî¡£ */
 void ClearIntegral(Pid *controller);
 
 #endif
