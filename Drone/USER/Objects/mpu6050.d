@@ -4,7 +4,7 @@
 .\objects\mpu6050.o: ..\OBJ\system.h
 .\objects\mpu6050.o: ..\CMSIS\inc\stm32f10x.h
 .\objects\mpu6050.o: ..\CMSIS\inc\core_cm3.h
-.\objects\mpu6050.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\mpu6050.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\mpu6050.o: ..\CMSIS\inc\system_stm32f10x.h
 .\objects\mpu6050.o: ..\CMSIS\inc\stm32f10x_conf.h
 .\objects\mpu6050.o: ..\LIB\inc\stm32f10x_adc.h

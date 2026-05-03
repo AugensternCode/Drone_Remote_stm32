@@ -2,7 +2,7 @@
 .\objects\flash.o: ..\OBJ\flash.h
 .\objects\flash.o: ..\CMSIS\inc\stm32f10x.h
 .\objects\flash.o: ..\CMSIS\inc\core_cm3.h
-.\objects\flash.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\flash.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\flash.o: ..\CMSIS\inc\system_stm32f10x.h
 .\objects\flash.o: ..\CMSIS\inc\stm32f10x_conf.h
 .\objects\flash.o: ..\LIB\inc\stm32f10x_adc.h

@@ -2,7 +2,7 @@
 .\objects\acc_cal.o: ..\OBJ\acc_cal.h
 .\objects\acc_cal.o: ..\CMSIS\inc\stm32f10x.h
 .\objects\acc_cal.o: ..\CMSIS\inc\core_cm3.h
-.\objects\acc_cal.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\acc_cal.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\acc_cal.o: ..\CMSIS\inc\system_stm32f10x.h
 .\objects\acc_cal.o: ..\CMSIS\inc\stm32f10x_conf.h
 .\objects\acc_cal.o: ..\LIB\inc\stm32f10x_adc.h
@@ -32,7 +32,7 @@
 .\objects\acc_cal.o: ..\OBJ\mpu6050.h
 .\objects\acc_cal.o: ..\OBJ\iic.h
 .\objects\acc_cal.o: ..\OBJ\system.h
-.\objects\acc_cal.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\acc_cal.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\acc_cal.o: ..\OBJ\parse_packet.h
 .\objects\acc_cal.o: ..\OBJ\nrf24l01.h
 .\objects\acc_cal.o: ..\OBJ\flash.h

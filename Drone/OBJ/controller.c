@@ -1,4 +1,4 @@
-﻿/*
+/*
  * 飞控控制器模块。
  *
  * 该文件位于 TIM3 控制周期的后半段，主要负责控制模式选择、串级 PID 运算、
@@ -241,7 +241,6 @@ void GyroController(void)
 	allPid.pitGyro.expect = allPid.pitAngle.out;
 	allPid.pitGyro.feedback = Mpu.deg_s.x;
 	PidController(&allPid.pitGyro);
-
 	/*
 	 * Roll 角速度内环：
 	 * 期望角速度来自 roll 姿态角外环输出；
@@ -250,7 +249,6 @@ void GyroController(void)
 	allPid.rolGyro.expect = allPid.rolAngle.out;
 	allPid.rolGyro.feedback = Mpu.deg_s.y;
 	PidController(&allPid.rolGyro);
-
 	/*
 	 * Yaw 角速度内环：
 	 * 期望值由 AngleController() 中的偏航策略设置；
@@ -259,6 +257,7 @@ void GyroController(void)
 	allPid.yawGyro.feedback = Mpu.deg_s.z;
 	PidController(&allPid.yawGyro);
 }
+
 
 uint8_t high_mark_flag = 0;
 uint8_t fix_mark_flag = 0;

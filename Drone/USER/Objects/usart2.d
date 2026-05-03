@@ -2,7 +2,7 @@
 .\objects\usart2.o: ..\OBJ\usart2.h
 .\objects\usart2.o: ..\CMSIS\inc\stm32f10x.h
 .\objects\usart2.o: ..\CMSIS\inc\core_cm3.h
-.\objects\usart2.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\usart2.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\usart2.o: ..\CMSIS\inc\system_stm32f10x.h
 .\objects\usart2.o: ..\CMSIS\inc\stm32f10x_conf.h
 .\objects\usart2.o: ..\LIB\inc\stm32f10x_adc.h
@@ -29,7 +29,7 @@
 .\objects\usart2.o: ..\LIB\inc\stm32f10x_usart.h
 .\objects\usart2.o: ..\LIB\inc\stm32f10x_wwdg.h
 .\objects\usart2.o: ..\LIB\inc\misc.h
-.\objects\usart2.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\usart2.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\usart2.o: ..\OBJ\imu.h
 .\objects\usart2.o: ..\OBJ\parse_packet.h
 .\objects\usart2.o: ..\OBJ\nrf24l01.h

@@ -2,7 +2,7 @@
 .\objects\timer.o: ..\OBJ\timer.h
 .\objects\timer.o: ..\CMSIS\inc\stm32f10x.h
 .\objects\timer.o: ..\CMSIS\inc\core_cm3.h
-.\objects\timer.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\timer.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\timer.o: ..\CMSIS\inc\system_stm32f10x.h
 .\objects\timer.o: ..\CMSIS\inc\stm32f10x_conf.h
 .\objects\timer.o: ..\LIB\inc\stm32f10x_adc.h
@@ -38,7 +38,7 @@
 .\objects\timer.o: ..\OBJ\mpu6050.h
 .\objects\timer.o: ..\OBJ\imu.h
 .\objects\timer.o: ..\OBJ\usart2.h
-.\objects\timer.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\timer.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\timer.o: ..\OBJ\pwm.h
 .\objects\timer.o: ..\OBJ\adc.h
 .\objects\timer.o: ..\OBJ\controller.h

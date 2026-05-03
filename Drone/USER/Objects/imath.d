@@ -2,7 +2,7 @@
 .\objects\imath.o: ..\OBJ\imath.h
 .\objects\imath.o: ..\CMSIS\inc\stm32f10x.h
 .\objects\imath.o: ..\CMSIS\inc\core_cm3.h
-.\objects\imath.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\imath.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\imath.o: ..\CMSIS\inc\system_stm32f10x.h
 .\objects\imath.o: ..\CMSIS\inc\stm32f10x_conf.h
 .\objects\imath.o: ..\LIB\inc\stm32f10x_adc.h

@@ -2,7 +2,7 @@
 .\objects\misc.o: ..\LIB\inc\misc.h
 .\objects\misc.o: ..\CMSIS\inc\stm32f10x.h
 .\objects\misc.o: ..\CMSIS\inc\core_cm3.h
-.\objects\misc.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\misc.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\misc.o: ..\CMSIS\inc\system_stm32f10x.h
 .\objects\misc.o: ..\CMSIS\inc\stm32f10x_conf.h
 .\objects\misc.o: ..\LIB\inc\stm32f10x_adc.h

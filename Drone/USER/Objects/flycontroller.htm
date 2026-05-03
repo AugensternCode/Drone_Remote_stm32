@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\flycontroller.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\flycontroller.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Apr 17 14:29:00 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Sun May 03 09:09:05 2026
 <BR><P>
 <H3>Maximum Stack Usage =        368 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -899,13 +899,13 @@ Global Symbols
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Read_Byte
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MPU6050_Get_Gyroscope
+<LI><a href="#[143]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_read_mem
+<LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_read_fifo_stream
 <LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
 <LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gyro_self_test
 <LI><a href="#[130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_st_biases
 <LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_accel_prod_shift
 <LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_set_bypass
-<LI><a href="#[143]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_read_mem
-<LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_read_fifo_stream
 </UL>
 
 <P><STRONG><a name="[a6]"></a>MPU6050_Set_Accel_Fsr</STRONG> (Thumb, 16 bytes, Stack size 8 bytes, mpu6050.o(i.MPU6050_Set_Accel_Fsr))
@@ -964,7 +964,9 @@ Global Symbols
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Start
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Send_Byte
 </UL>
-<BR>[Called By]<UL><LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_lp_accel_mode
+<BR>[Called By]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_reset_fifo
+<LI><a href="#[143]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_read_mem
+<LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_lp_accel_mode
 <LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_load_firmware
 <LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
 <LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_int_enable
@@ -978,8 +980,6 @@ Global Symbols
 <LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_set_dmp_state
 <LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_set_bypass
 <LI><a href="#[140]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_set_accel_fsr
-<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_reset_fifo
-<LI><a href="#[143]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_read_mem
 </UL>
 
 <P><STRONG><a name="[e]"></a>MemManage_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f10x_it.o(i.MemManage_Handler))
@@ -1678,12 +1678,12 @@ Global Symbols
 <P><STRONG><a name="[83]"></a>delay_ms</STRONG> (Thumb, 62 bytes, Stack size 0 bytes, systick.o(i.delay_ms))
 <BR><BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MPU6050_Init
 <LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_reset_fifo
 <LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
 <LI><a href="#[130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_st_biases
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DateTransfer
 <LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_set_sensors
 <LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_set_bypass
-<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_reset_fifo
 </UL>
 
 <P><STRONG><a name="[115]"></a>direction_to_zero</STRONG> (Thumb, 34 bytes, Stack size 16 bytes, imath.o(i.direction_to_zero))
@@ -1699,8 +1699,8 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 112 + Unknown Stack Size
 <LI>Call Chain = dmp_enable_6x_lp_quat &rArr; mpu_write_mem &rArr; MPU6050_Write_Len &rArr; IIC_Wait_Ack &rArr; IIC_Stop &rArr; SDA_OUT &rArr; GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_write_mem
-<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_reset_fifo
+<BR>[Calls]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_reset_fifo
+<LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_write_mem
 <LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
 </UL>
 <BR>[Called By]<UL><LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dmp_enable_feature
@@ -1710,7 +1710,8 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 160 + Unknown Stack Size
 <LI>Call Chain = dmp_enable_feature &rArr; dmp_set_tap_thresh &rArr; mpu_write_mem &rArr; MPU6050_Write_Len &rArr; IIC_Wait_Ack &rArr; IIC_Stop &rArr; SDA_OUT &rArr; GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dmp_set_tap_time_multi
+<BR>[Calls]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_reset_fifo
+<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dmp_set_tap_time_multi
 <LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dmp_set_tap_time
 <LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dmp_set_tap_thresh
 <LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dmp_set_tap_count
@@ -1722,7 +1723,6 @@ Global Symbols
 <LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dmp_enable_gyro_cal
 <LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dmp_enable_6x_lp_quat
 <LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_write_mem
-<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_reset_fifo
 </UL>
 <BR>[Called By]<UL><LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_dmp_init
 </UL>
@@ -1739,8 +1739,8 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 112 + Unknown Stack Size
 <LI>Call Chain = dmp_enable_lp_quat &rArr; mpu_write_mem &rArr; MPU6050_Write_Len &rArr; IIC_Wait_Ack &rArr; IIC_Stop &rArr; SDA_OUT &rArr; GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_write_mem
-<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_reset_fifo
+<BR>[Calls]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_reset_fifo
+<LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_write_mem
 <LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
 </UL>
 <BR>[Called By]<UL><LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dmp_enable_feature
@@ -1757,10 +1757,10 @@ Global Symbols
 <P><STRONG><a name="[126]"></a>dmp_read_fifo</STRONG> (Thumb, 456 bytes, Stack size 88 bytes, inv_mpu_dmp_motion_driver.o(i.dmp_read_fifo))
 <BR><BR>[Stack]<UL><LI>Max Depth = 192<LI>Call Chain = dmp_read_fifo &rArr; mpu_read_fifo_stream &rArr; MPU6050_Read_Len &rArr; IIC_Read_Byte &rArr; IIC_NAck &rArr; SDA_OUT &rArr; GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mget_ms
-<LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;decode_gesture
-<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_reset_fifo
+<BR>[Calls]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_reset_fifo
 <LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_read_fifo_stream
+<LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mget_ms
+<LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;decode_gesture
 </UL>
 <BR>[Called By]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_dmp_get_data
 </UL>
@@ -1913,13 +1913,13 @@ Global Symbols
 <P><STRONG><a name="[137]"></a>mpu_configure_fifo</STRONG> (Thumb, 106 bytes, Stack size 16 bytes, inv_mpu.o(i.mpu_configure_fifo))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = mpu_configure_fifo &rArr; set_int_enable &rArr; MPU6050_Write_Len &rArr; IIC_Wait_Ack &rArr; IIC_Stop &rArr; SDA_OUT &rArr; GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_int_enable
-<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_reset_fifo
+<BR>[Calls]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_reset_fifo
+<LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_int_enable
 </UL>
 <BR>[Called By]<UL><LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_dmp_init
+<LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_run_self_test
 <LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_lp_accel_mode
 <LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
-<LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_run_self_test
 </UL>
 
 <P><STRONG><a name="[9d]"></a>mpu_dmp_get_data</STRONG> (Thumb, 544 bytes, Stack size 136 bytes, inv_mpu.o(i.mpu_dmp_get_data))
@@ -1961,8 +1961,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[12f]"></a>mpu_get_accel_fsr</STRONG> (Thumb, 72 bytes, Stack size 0 bytes, inv_mpu.o(i.mpu_get_accel_fsr))
-<BR><BR>[Called By]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dmp_set_tap_thresh
-<LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_run_self_test
+<BR><BR>[Called By]<UL><LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_run_self_test
+<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dmp_set_tap_thresh
 </UL>
 
 <P><STRONG><a name="[12b]"></a>mpu_get_accel_sens</STRONG> (Thumb, 78 bytes, Stack size 0 bytes, inv_mpu.o(i.mpu_get_accel_sens))
@@ -2011,8 +2011,8 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = mpu_load_firmware &rArr; mpu_read_mem &rArr; MPU6050_Read_Len &rArr; IIC_Read_Byte &rArr; IIC_NAck &rArr; SDA_OUT &rArr; GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MPU6050_Write_Len
-<LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_write_mem
 <LI><a href="#[143]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_read_mem
+<LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_write_mem
 <LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memcmp
 </UL>
 <BR>[Called By]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dmp_load_motion_driver_firmware
@@ -2053,13 +2053,13 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MPU6050_Write_Len
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 </UL>
-<BR>[Called By]<UL><LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_configure_fifo
+<BR>[Called By]<UL><LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_read_fifo_stream
+<LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_configure_fifo
 <LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dmp_enable_lp_quat
 <LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dmp_enable_6x_lp_quat
 <LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dmp_read_fifo
 <LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dmp_enable_feature
 <LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_set_dmp_state
-<LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_read_fifo_stream
 </UL>
 
 <P><STRONG><a name="[147]"></a>mpu_run_self_test</STRONG> (Thumb, 278 bytes, Stack size 88 bytes, inv_mpu.o(i.mpu_run_self_test))
@@ -2089,8 +2089,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MPU6050_Write_Len
 </UL>
-<BR>[Called By]<UL><LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
-<LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_run_self_test
+<BR>[Called By]<UL><LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_run_self_test
+<LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
 </UL>
 
 <P><STRONG><a name="[142]"></a>mpu_set_bypass</STRONG> (Thumb, 328 bytes, Stack size 16 bytes, inv_mpu.o(i.mpu_set_bypass))
@@ -2108,10 +2108,10 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = mpu_set_dmp_state &rArr; mpu_set_sample_rate &rArr; mpu_lp_accel_mode &rArr; mpu_configure_fifo &rArr; set_int_enable &rArr; MPU6050_Write_Len &rArr; IIC_Wait_Ack &rArr; IIC_Stop &rArr; SDA_OUT &rArr; GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MPU6050_Write_Len
+<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_reset_fifo
 <LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_int_enable
 <LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_set_sample_rate
 <LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_set_bypass
-<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_reset_fifo
 </UL>
 <BR>[Called By]<UL><LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_dmp_init
 <LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_run_self_test
@@ -2122,8 +2122,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MPU6050_Write_Len
 </UL>
-<BR>[Called By]<UL><LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
-<LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_run_self_test
+<BR>[Called By]<UL><LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_run_self_test
+<LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
 </UL>
 
 <P><STRONG><a name="[146]"></a>mpu_set_int_latched</STRONG> (Thumb, 102 bytes, Stack size 16 bytes, inv_mpu.o(i.mpu_set_int_latched))
@@ -2140,10 +2140,10 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MPU6050_Write_Len
 </UL>
-<BR>[Called By]<UL><LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_lp_accel_mode
+<BR>[Called By]<UL><LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_run_self_test
+<LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_lp_accel_mode
 <LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
 <LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_set_sample_rate
-<LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_run_self_test
 </UL>
 
 <P><STRONG><a name="[13c]"></a>mpu_set_sample_rate</STRONG> (Thumb, 152 bytes, Stack size 16 bytes, inv_mpu.o(i.mpu_set_sample_rate))
@@ -2154,9 +2154,9 @@ Global Symbols
 <LI><a href="#[141]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_set_lpf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_dmp_init
+<LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_run_self_test
 <LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
 <LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_set_dmp_state
-<LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_run_self_test
 </UL>
 
 <P><STRONG><a name="[13b]"></a>mpu_set_sensors</STRONG> (Thumb, 202 bytes, Stack size 16 bytes, inv_mpu.o(i.mpu_set_sensors))
@@ -2167,8 +2167,8 @@ Global Symbols
 <LI><a href="#[146]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_set_int_latched
 </UL>
 <BR>[Called By]<UL><LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_dmp_init
-<LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
 <LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_run_self_test
+<LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
 </UL>
 
 <P><STRONG><a name="[117]"></a>mpu_write_mem</STRONG> (Thumb, 122 bytes, Stack size 24 bytes, inv_mpu.o(i.mpu_write_mem))
@@ -2211,11 +2211,11 @@ Global Symbols
 <P><STRONG><a name="[13d]"></a>run_self_test</STRONG> (Thumb, 148 bytes, Stack size 48 bytes, inv_mpu.o(i.run_self_test))
 <BR><BR>[Stack]<UL><LI>Max Depth = 288<LI>Call Chain = run_self_test &rArr; mpu_run_self_test &rArr; accel_self_test &rArr; get_accel_prod_shift &rArr; MPU6050_Read_Len &rArr; IIC_Read_Byte &rArr; IIC_NAck &rArr; SDA_OUT &rArr; GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[14d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_get_gyro_sens
+<BR>[Calls]<UL><LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_run_self_test
+<LI><a href="#[14d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_get_gyro_sens
 <LI><a href="#[12b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_get_accel_sens
 <LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dmp_set_gyro_bias
 <LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dmp_set_accel_bias
-<LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_run_self_test
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
 <LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2iz

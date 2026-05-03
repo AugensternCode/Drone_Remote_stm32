@@ -3,7 +3,7 @@
 .\objects\imu.o: ..\OBJ\imath.h
 .\objects\imu.o: ..\CMSIS\inc\stm32f10x.h
 .\objects\imu.o: ..\CMSIS\inc\core_cm3.h
-.\objects\imu.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\imu.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\imu.o: ..\CMSIS\inc\system_stm32f10x.h
 .\objects\imu.o: ..\CMSIS\inc\stm32f10x_conf.h
 .\objects\imu.o: ..\LIB\inc\stm32f10x_adc.h
@@ -33,7 +33,7 @@
 .\objects\imu.o: ..\OBJ\mpu6050.h
 .\objects\imu.o: ..\OBJ\iic.h
 .\objects\imu.o: ..\OBJ\system.h
-.\objects\imu.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\imu.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\imu.o: ..\OBJ\timer.h
 .\objects\imu.o: ..\OBJ\nav.h
 .\objects\imu.o: ..\OBJ\inv_mpu.h

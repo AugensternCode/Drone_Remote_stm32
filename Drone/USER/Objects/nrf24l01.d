@@ -2,7 +2,7 @@
 .\objects\nrf24l01.o: ..\OBJ\nrf24l01.h
 .\objects\nrf24l01.o: ..\CMSIS\inc\stm32f10x.h
 .\objects\nrf24l01.o: ..\CMSIS\inc\core_cm3.h
-.\objects\nrf24l01.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\nrf24l01.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\nrf24l01.o: ..\CMSIS\inc\system_stm32f10x.h
 .\objects\nrf24l01.o: ..\CMSIS\inc\stm32f10x_conf.h
 .\objects\nrf24l01.o: ..\LIB\inc\stm32f10x_adc.h

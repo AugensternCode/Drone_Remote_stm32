@@ -1,7 +1,7 @@
 .\objects\main.o: main.c
 .\objects\main.o: ..\CMSIS\inc\stm32f10x.h
 .\objects\main.o: ..\CMSIS\inc\core_cm3.h
-.\objects\main.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\main.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\main.o: ..\CMSIS\inc\system_stm32f10x.h
 .\objects\main.o: ..\CMSIS\inc\stm32f10x_conf.h
 .\objects\main.o: ..\LIB\inc\stm32f10x_adc.h
@@ -43,7 +43,7 @@
 .\objects\main.o: ..\OBJ\timer.h
 .\objects\main.o: ..\OBJ\nvic.h
 .\objects\main.o: ..\OBJ\usart2.h
-.\objects\main.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\main.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: ..\OBJ\inv_mpu.h
 .\objects\main.o: ..\OBJ\imu.h
 .\objects\main.o: ..\OBJ\pair_freq.h

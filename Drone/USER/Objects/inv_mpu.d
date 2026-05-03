@@ -1,9 +1,9 @@
 .\objects\inv_mpu.o: ..\OBJ\inv_mpu.c
-.\objects\inv_mpu.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\objects\inv_mpu.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\objects\inv_mpu.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\inv_mpu.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-.\objects\inv_mpu.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\inv_mpu.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\inv_mpu.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\inv_mpu.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\inv_mpu.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\inv_mpu.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\inv_mpu.o: ..\OBJ\inv_mpu.h
 .\objects\inv_mpu.o: ..\CMSIS\inc\stm32f10x.h
 .\objects\inv_mpu.o: ..\CMSIS\inc\core_cm3.h

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * 模块说明：TIM3 主调度定时器实现，是飞控 5ms 主循环节拍来源。
  */
 #include "timer.h"
@@ -56,14 +56,6 @@ void time_check(_Time_test *running)
     running->now_time_us = running_tim_cnt * 5000 + TIM3->CNT;
     running->delta_time_us = running->now_time_us - running->last_time_us;
     running->delta_time_ms = running->delta_time_us * 0.001f;
-}
-
-void time_check(_Time_test *runing)
-{
-    runing->last_time_us=runing->now_time_us;
-    runing->now_time_us=running_tim_cnt*5000+TIM3->CNT;
-    runing->delta_time_us=runing->now_time_us-runing->last_time_us;
-    runing->delta_time_ms=runing->delta_time_us*0.001f;
 }
 
 _Time_test run_start;

@@ -3,7 +3,7 @@
 .\objects\parse_packet.o: ..\OBJ\nrf24l01.h
 .\objects\parse_packet.o: ..\CMSIS\inc\stm32f10x.h
 .\objects\parse_packet.o: ..\CMSIS\inc\core_cm3.h
-.\objects\parse_packet.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\parse_packet.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\parse_packet.o: ..\CMSIS\inc\system_stm32f10x.h
 .\objects\parse_packet.o: ..\CMSIS\inc\stm32f10x_conf.h
 .\objects\parse_packet.o: ..\LIB\inc\stm32f10x_adc.h

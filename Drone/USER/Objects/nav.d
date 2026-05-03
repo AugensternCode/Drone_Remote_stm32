@@ -2,7 +2,7 @@
 .\objects\nav.o: ..\OBJ\nav.h
 .\objects\nav.o: ..\CMSIS\inc\stm32f10x.h
 .\objects\nav.o: ..\CMSIS\inc\core_cm3.h
-.\objects\nav.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\nav.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\nav.o: ..\CMSIS\inc\system_stm32f10x.h
 .\objects\nav.o: ..\CMSIS\inc\stm32f10x_conf.h
 .\objects\nav.o: ..\LIB\inc\stm32f10x_adc.h
@@ -33,4 +33,4 @@
 .\objects\nav.o: ..\OBJ\iic.h
 .\objects\nav.o: ..\OBJ\system.h
 .\objects\nav.o: ..\OBJ\imu.h
-.\objects\nav.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\nav.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

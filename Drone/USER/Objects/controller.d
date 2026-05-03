@@ -2,7 +2,7 @@
 .\objects\controller.o: ..\OBJ\controller.h
 .\objects\controller.o: ..\CMSIS\inc\stm32f10x.h
 .\objects\controller.o: ..\CMSIS\inc\core_cm3.h
-.\objects\controller.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\controller.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\controller.o: ..\CMSIS\inc\system_stm32f10x.h
 .\objects\controller.o: ..\CMSIS\inc\stm32f10x_conf.h
 .\objects\controller.o: ..\LIB\inc\stm32f10x_adc.h

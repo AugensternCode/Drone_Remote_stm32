@@ -2,7 +2,7 @@
 .\objects\fc_status.o: ..\OBJ\fc_status.h
 .\objects\fc_status.o: ..\CMSIS\inc\stm32f10x.h
 .\objects\fc_status.o: ..\CMSIS\inc\core_cm3.h
-.\objects\fc_status.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\fc_status.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\fc_status.o: ..\CMSIS\inc\system_stm32f10x.h
 .\objects\fc_status.o: ..\CMSIS\inc\stm32f10x_conf.h
 .\objects\fc_status.o: ..\LIB\inc\stm32f10x_adc.h

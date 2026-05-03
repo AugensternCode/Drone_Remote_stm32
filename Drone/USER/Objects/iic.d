@@ -3,7 +3,7 @@
 .\objects\iic.o: ..\OBJ\system.h
 .\objects\iic.o: ..\CMSIS\inc\stm32f10x.h
 .\objects\iic.o: ..\CMSIS\inc\core_cm3.h
-.\objects\iic.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\iic.o: D:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\iic.o: ..\CMSIS\inc\system_stm32f10x.h
 .\objects\iic.o: ..\CMSIS\inc\stm32f10x_conf.h
 .\objects\iic.o: ..\LIB\inc\stm32f10x_adc.h
