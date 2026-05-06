@@ -87,7 +87,6 @@ float PidController(Pid *controller)
     controller->err_last = controller->err;		//保存上次偏差
     controller->err = controller->expect - controller->feedback;		//计算误差
     controller->integral += controller->ki * controller->err;		//误差积分  
-
     //积分限幅
     if(controller->integral >  controller->integral_max){
 			controller->integral =  controller->integral_max;
@@ -95,7 +94,6 @@ float PidController(Pid *controller)
     if(controller->integral < -controller->integral_max){
 			controller->integral = -controller->integral_max;
 		}
- 
     //pid运算
     controller->out =  controller->kp * controller->err
                      + controller->integral
@@ -106,6 +104,7 @@ float PidController(Pid *controller)
 
     return  controller->out;
 }
+
 
 //清除积分
 void ClearIntegral(Pid *controller)
