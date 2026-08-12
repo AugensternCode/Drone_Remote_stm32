@@ -15,13 +15,10 @@ int main(void)
 {
     SystemInit();                       //系统初始化    
     systick_init();                     //系统滴答定时器初始化
-    
     LedInit();                         //状态灯初始化
     Usart1Init(115200);                //串口初始化 
     printf("usart is ok\r\n");
-    
-		get_chip_id();
-    
+	get_chip_id();
     SPI1_Init();
     NRF24L01_Init();
     while(NRF24L01_Check()){
@@ -29,18 +26,13 @@ int main(void)
 			delay_ms(10);
     }
     NRF24L01_TX_Mode();
-    
     KeyInit();
 		ADC_Config();
 		timing_trigger_init();
-
 		OLED_Init();			//初始化OLED  
-		OLED_Clear(); 
-		
-    NVIC_config();                      //中断配置初始化
-    
+		OLED_Clear(); 		
+       NVIC_config();                      //中断配置初始化
     delay_ms(100);
-    
     while(1){
 			WaitPairing();
 			key_info();
@@ -50,7 +42,6 @@ int main(void)
 }
 //int main()                              
 //{                      
-
 //	
 //	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
 ////	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);

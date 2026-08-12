@@ -24,7 +24,6 @@ void NRF24L01_Init(void)
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;            //推挽输出
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
     GPIO_Init(GPIO_NRF24L01_CSN, &GPIO_InitStructure);
-	
     Set_NRF24L01_CE();                                          //初始化时先拉高
     Set_NRF24L01_CSN();                                         //初始化时先拉高
 

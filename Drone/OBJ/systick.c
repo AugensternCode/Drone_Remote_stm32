@@ -7,12 +7,21 @@
 
 uint32_t tickCount;
 
+//void SystickInit(void)
+//{
+//	SysTick->LOAD = (uint32_t)(SystemCoreClock/1000000 - 1UL); //1s/1000,000=1us
+//	SysTick->VAL  = 0UL;
+//	SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk |SysTick_CTRL_TICKINT_Msk;  //配置滴答定时器时钟源和启动定时中断
+//	SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;                     //失能滴答定时器中断中断
+//}
 void SystickInit(void)
 {
-	SysTick->LOAD = (uint32_t)(SystemCoreClock/1000000 - 1UL); //1s/1000,000=1us
-	SysTick->VAL  = 0UL;
-	SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk |SysTick_CTRL_TICKINT_Msk;  //配置滴答定时器时钟源和启动定时中断
-	SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;                     //失能滴答定时器中断中断
+	if(SysTick_Config(SystemCoreClock/1000000U)!=0)
+	{
+		while(1)
+		{
+		}
+	}
 }
 
 //us延时

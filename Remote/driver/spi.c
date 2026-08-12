@@ -7,18 +7,14 @@ void SPI1_Init(void)
 {	 
     SPI_InitTypeDef  SPI_InitStructure;
     GPIO_InitTypeDef GPIO_InitStructure;
-    
     RCC_APB2PeriphClockCmd(RCC_SPI1_PORT, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_SPI1_CLK, ENABLE);    
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
-    
     /*!< Config  pins: SCK MISO MOSI*/
     GPIO_InitStructure.GPIO_Pin = SPI1_SCK | SPI1_MISO | SPI1_MOSI;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
-
     GPIO_Init(SPI1_GPIO_PORT, &GPIO_InitStructure);
-
     /* SPI1 configuration */                                            //初始化SPI1结构体
     SPI_InitStructure.SPI_Mode = SPI_Mode_Master;                       //设置SPI1为主模式
     SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;  //SPI1设置为两线全双工
@@ -27,13 +23,11 @@ void SPI1_Init(void)
     SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;                        //第一个时钟沿开始采样数据
     SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;                           //NSS信号由软件（使用SSI位）管理
     SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_8;  //SPI波特率预分频值为8
-    SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;                  //数据传输从MSB位开始
+    SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;                  //数据传输从MSB位开始 
     SPI_InitStructure.SPI_CRCPolynomial = 7;                            //CRC值计算的多项式
     SPI_Init(SPI1, &SPI_InitStructure);                                 //根据SPI_InitStruct中指定的参数初始化外设SPI2寄存器
-	
     /* Enable SPI1  */
     SPI_Cmd(SPI1, ENABLE);                                              //使能SPI1外设	
-    
     SPI1_RW(0xff);                                                      //启动传输		 
 }  
 uint8_t SPI1_RW(uint16_t TxData)                                        //SPI读写数据函数

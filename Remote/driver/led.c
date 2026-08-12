@@ -11,16 +11,14 @@ void LedInit(void)
 {
     GPIO_InitTypeDef  GPIO_InitStructure;
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
-    
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7|GPIO_Pin_8|GPIO_Pin_9;
     GPIO_Init(GPIOB, &GPIO_InitStructure); 
-    
 	//GPIOB->BSRR  = GPIO_Pin_7;//红
-//	GPIOB->BSRR  = GPIO_Pin_8;//绿
-//	GPIOB->BSRR  = GPIO_Pin_9;//蓝
-		LedColorSet(RED);
+    //GPIOB->BSRR  = GPIO_Pin_8;//绿
+    //GPIOB->BSRR  = GPIO_Pin_9;//蓝
+	LedColorSet(RED);
 }
 
 //关闭状态指示灯
