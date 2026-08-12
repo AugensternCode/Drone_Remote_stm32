@@ -36,10 +36,7 @@ void data_exchange(uint8_t *dateBuff)
 			dateBuff[3] = pair.addr[2];			//	
 			dateBuff[4] = pair.addr[3];			//	
 			dateBuff[5] = pair.addr[4];			//	
-			
 			dateBuff[6] = pair.freq_channel;		//通信频点		
-
-
 			dateBuff[TX_PLOAD_WIDTH-1] = 0x8B;	//帧尾      
 	}
 	//正常数据通信
@@ -119,7 +116,6 @@ void DisplayPlaneInfo(void)
 void OledDisplayPairStatus(void)
 {
 	static u8 clearDetect = 0;
-
 	if(clearDetect != ((rxPacketStatus<<4)|pair.step)){
 		OLED_Clear();
 		clearDetect = (rxPacketStatus<<4)|pair.step;
@@ -144,7 +140,5 @@ void OledDisplayPairStatus(void)
 	else if(rxPacketStatus == 0 && pair.step == DONE){		
 		OledDisplayChinese(0,2,signalLost,4);//信号丢失
 	}
-
-	
 }
 
