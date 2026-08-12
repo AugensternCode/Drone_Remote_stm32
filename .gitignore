@@ -1,0 +1,21 @@
+# Keil build output
+/Drone/USER/Objects/
+/Drone/USER/Listings/
+/Remote/out_file/
+/Remote/user/Listings/
+
+# Keil per-user workspace state
+*.uvguix.*
+*.uvgui.*
+*.uvoptx
+*.uvopt
+
+# Draw.io temporary and backup files
+.$*.drawio.bkp
+.$*.drawio.dtmp
+
+# Common editor and operating-system files
+*.swp
+*.tmp
+Thumbs.db
+.DS_Store
