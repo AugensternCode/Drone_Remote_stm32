@@ -1,3 +1,13 @@
+<div align="center">
+
+# Drone Remote STM32
+
+基于 STM32F103C8、MPU6050 与 NRF24L01 的开源无人机飞控及配套遥控器固件
+
+[![GitHub stars](https://img.shields.io/github/stars/AugensternCode/Drone_Remote_stm32?style=flat-square&logo=github)](https://github.com/AugensternCode/Drone_Remote_stm32/stargazers)
+
+</div>
+
 ## 项目简介
 
 Drone Remote STM32 是一套由两个独立固件组成的无人机控制项目：
@@ -219,12 +229,6 @@ Drone_Remote_stm32/
 <a href="https://github.com/AugensternCode/Drone_Remote_stm32/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=AugensternCode/Drone_Remote_stm32" alt="Contributors" />
 </a>
-
-## Stars 趋势
-
-如果这个项目对你有帮助，欢迎点亮一个 Star，这会帮助更多嵌入式与无人机爱好者发现它。
-
-[![Star History Chart](https://api.star-history.com/svg?repos=AugensternCode/Drone_Remote_stm32&type=Date)](https://star-history.com/#AugensternCode/Drone_Remote_stm32&Date)
 
 ---
 
