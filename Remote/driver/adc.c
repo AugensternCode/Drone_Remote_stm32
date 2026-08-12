@@ -27,9 +27,7 @@ void adc_gpio_init(void)
 void adc_config(void)
 {
     ADC_InitTypeDef ADC_initStructure;
-    
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1,ENABLE);
-	
 	ADC_initStructure.ADC_ContinuousConvMode = DISABLE;					        // 单次转换模式，每次由定时器触发开始
 	ADC_initStructure.ADC_DataAlign = ADC_DataAlign_Right;		                // 数据右对齐
 	ADC_initStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_T4_CC4;	    // TIM4_CH4 作为外部触发源
@@ -37,33 +35,25 @@ void adc_config(void)
 	ADC_initStructure.ADC_NbrOfChannel = 4;										// 一次顺序采样 4 个通道
 	ADC_initStructure.ADC_ScanConvMode = ENABLE;		                        // 扫描模式
 	ADC_Init(ADC1,&ADC_initStructure);
-
 	ADC_Cmd(ADC1,ENABLE);
-    
 	ADC_DMACmd(ADC1,ENABLE);
-	
 	RCC_ADCCLKConfig(RCC_PCLK2_Div8);                                           // ADC 时钟分频
-
 	// 配置规则通道顺序和每个通道的采样时间。
 	ADC_RegularChannelConfig(ADC1,ADC_Channel_0,1,ADC_SampleTime_71Cycles5);	
 	ADC_RegularChannelConfig(ADC1,ADC_Channel_1,2,ADC_SampleTime_71Cycles5);
 	ADC_RegularChannelConfig(ADC1,ADC_Channel_2,3,ADC_SampleTime_71Cycles5);
-	ADC_RegularChannelConfig(ADC1,ADC_Channel_3,4,ADC_SampleTime_71Cycles5);
-	
+	ADC_RegularChannelConfig(ADC1,ADC_Channel_3,4,ADC_SampleTime_71Cycles5);	
 	ADC_ResetCalibration(ADC1);	                                                // 复位校准
 	while(ADC_GetCalibrationStatus(ADC1));		                                // 等待复位完成
 	ADC_StartCalibration(ADC1);					                                // 启动校准
 	while(ADC_GetCalibrationStatus(ADC1));		                                // 等待校准完成
-
 	ADC_ExternalTrigConvCmd(ADC1,ENABLE);	                                    // 使能外部触发
 }
 
 void ADC_DMA_Config(void)
 {
 	DMA_InitTypeDef DMA_initStructure;
-
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,ENABLE);
-	
 	DMA_initStructure.DMA_BufferSize = 4;										// 对应 4 路采样结果
 	DMA_initStructure.DMA_DIR = DMA_DIR_PeripheralSRC;	                        // 传输方向：外设到内存
 	DMA_initStructure.DMA_M2M = DMA_M2M_Disable;								
@@ -76,12 +66,9 @@ void ADC_DMA_Config(void)
 	DMA_initStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;			// 外设地址固定不变
 	DMA_initStructure.DMA_Priority = DMA_Priority_Medium;						
 	DMA_Init(DMA1_Channel1,&DMA_initStructure);
-    
 	DMA_ClearITPendingBit(DMA1_IT_TC1);			    
-
 	// 一轮 DMA 搬运完成后产生中断，供上层处理最新采样值。
 	DMA_ITConfig(DMA1_Channel1,DMA_IT_TC,ENABLE);	
-    
 	DMA_Cmd(DMA1_Channel1,ENABLE);	
 }
 
