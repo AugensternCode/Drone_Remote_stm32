@@ -32,7 +32,7 @@ uint8_t KeyScan(uint8_t mode)
        key_up = 1;
 		}
     if(key_up&&(key_left==0||key_right==0)){
-        delay_ms(5);
+        Delay_ms(5);
         key_up = 0;
         if(key_left==0)     return 1;
         if(key_right==0)    return 2;

@@ -15,19 +15,16 @@ void LedInit(void)
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7|GPIO_Pin_8|GPIO_Pin_9;
     GPIO_Init(GPIOB, &GPIO_InitStructure); 
-	//GPIOB->BSRR  = GPIO_Pin_7;//红
-    //GPIOB->BSRR  = GPIO_Pin_8;//绿
-    //GPIOB->BSRR  = GPIO_Pin_9;//蓝
 	LedColorSet(RED);
 }
 
 //关闭状态指示灯
 static void LedStatusOff(void)
 {
-	GPIOB->BSRR = GPIO_Pin_7;
-	GPIOB->BSRR = GPIO_Pin_8;
-	GPIOB->BSRR = GPIO_Pin_9;
-}
+	GPIOB->BSRR = GPIO_Pin_7;  //红，置为高电平，因为LED的公共极连的是阳极
+	GPIOB->BSRR = GPIO_Pin_8;  //绿
+	GPIOB->BSRR = GPIO_Pin_9;  //蓝
+} 
 
 //LED灯颜色设置
 void LedColorSet(const uint8_t LedColor)

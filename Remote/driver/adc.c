@@ -3,22 +3,16 @@
 #include "usart1.h"
 #include "nrf24l01.h"
 
-
-
-
 uint16_t ADC_value[4];
-
 /* 将 PA0~PA3 配置为模拟输入，对应 4 路 ADC 采样 */
 void adc_gpio_init(void)
 {
 	GPIO_InitTypeDef GPIO_initStructure;    
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
-	
 	GPIO_initStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_3;	    
 	GPIO_initStructure.GPIO_Mode = GPIO_Mode_AIN;								    
 	GPIO_Init(GPIOA,&GPIO_initStructure);	
 }
-
 /* 配置 ADC1:
  * 1. 扫描 4 个规则通道
  * 2. 由 TIM4_CH4 外部触发启动转换

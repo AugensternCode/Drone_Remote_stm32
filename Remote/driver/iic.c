@@ -18,7 +18,7 @@ void I2cInit(void)
     GPIO_InitStructure.GPIO_Speed  = GPIO_Speed_50MHz;
     GPIO_Init(SDA_port, &GPIO_InitStructure);
     
-    delay_ms(10);
+    Delay_ms(10);
     GPIO_SetBits(SCL_port,SCL_pin);                                    //上拉
     GPIO_SetBits(SDA_port,SDA_pin);                                    //上拉
 }

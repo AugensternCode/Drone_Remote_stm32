@@ -3,7 +3,7 @@
 
 #include "stm32f10x.h"
 
-void systick_init(void);
+void SysTick_init(void);
 
 void delay_us(uint32_t time);
 

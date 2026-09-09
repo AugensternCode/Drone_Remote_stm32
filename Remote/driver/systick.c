@@ -1,53 +1,27 @@
 #include "systick.h"
 
 /* 系统滴答定时器 */
+__IO uint32_t g_system_tick_ms=0U;
 
-uint32_t tick_count;
-
-void systick_init(void)
+void SysTick_init(void)
 {
-	SysTick->LOAD  = (uint32_t)(SystemCoreClock/1000000 - 1UL);
-	SysTick->VAL   = 0UL;
-	SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk |SysTick_CTRL_TICKINT_Msk;  //配置滴答定时器时钟源和启动定时中断
-	SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;                              //失能滴答定时器中断中断
+	if(SysTick_Config(SystemCoreClock/1000U)!=0U) while(1);
+}
+
+uint32_t GetTick(void)
+{
+	return g_system_tick_ms;
 }
 //us延时
-void delay_us(uint32_t time)
+void Delay_ms(uint32_t ms)
 {
-	if(time<=0)
-		return;
-
-	tick_count = time;
-	SysTick->VAL = 0;
-	SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;                               //使能滴答定时器中断
-	while(tick_count!=0);                                                   //等待计时完成
-	SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;                              //失能滴答定时器中断中断
+	uint32_t start=GetTick();
+	while((GetTick()-start)<ms);
 }
 //ms延时
-void delay_ms(uint32_t time)
+void Delay_us(uint32_t us)
 {
-	if(time<=0)
-		return;
-
-	tick_count = time*1000;
-	SysTick->VAL = 0;
-	SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;                               //使能滴答定时器中断
-	while(tick_count!=0);                                                   //等待计时完成
-	SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;                              //失能滴答定时器中断中断
+   uint32_t start=SysTick->VAL;
+   uint32_t tick=us*72;   //72个时钟周期计数1us
+    while((start-SysTick->VAL)<tick);
 }
-
-
-/**
-  * @brief  This function handles SysTick Handler.
-  * @param  None
-  * @retval None
-  */
-void SysTick_Handler(void)
-{
-    if(tick_count!=0)
-    {
-        tick_count--;
-    }
-}
-
-

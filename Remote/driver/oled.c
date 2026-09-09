@@ -12,7 +12,7 @@
 void OLED_Init(void)
 {
 	I2cInit(); 
-	delay_ms(200);
+	Delay_ms(200);
 	OLED_WR_Byte(0xAE,OLED_CMD);//--display off
 	OLED_WR_Byte(0x00,OLED_CMD);//---set low column address0
 	OLED_WR_Byte(0x10,OLED_CMD);//---set high column address16
