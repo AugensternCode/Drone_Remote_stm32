@@ -12,16 +12,16 @@ uint32_t GetTick(void)
 {
 	return g_system_tick_ms;
 }
-//us延时
+//ms延时
 void Delay_ms(uint32_t ms)
 {
 	uint32_t start=GetTick();
 	while((GetTick()-start)<ms);
 }
-//ms延时
+//us延时
 void Delay_us(uint32_t us)
 {
    uint32_t start=SysTick->VAL;
    uint32_t tick=us*72;   //72个时钟周期计数1us
-    while((start-SysTick->VAL)<tick);
+    while(((start-SysTick->VAL)&0x00FFFFFF)<tick);  //防溢出
 }

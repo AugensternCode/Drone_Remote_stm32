@@ -1,36 +1,35 @@
 #include "led.h"
-
-uint16_t blinkSpeedCount = 0;		//状态RGB灯闪烁速度设置
+uint16_t Blink_Speed_Count = 0;		//状态RGB灯闪烁速度设置
 #define BLINK_SPEED 10
-
-uint16_t blinkPeriodCount = 0;	//状态RGB灯闪烁周期设置
+uint16_t Blink_Period_Count = 0;	//状态RGB灯闪烁周期设置
 #define BLINK_PERIOD 5
 
 /* led端口初始化 */
 void LedInit(void)
 {
     GPIO_InitTypeDef  GPIO_InitStructure;
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
+    RCC_APB2PeriphClockCmd(RED_GPIO_CLK | GREEN_GPIO_CLK | BLUE_GPIO_CLK,ENABLE);	
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7|GPIO_Pin_8|GPIO_Pin_9;
-    GPIO_Init(GPIOB, &GPIO_InitStructure); 
+    GPIO_InitStructure.GPIO_Pin = RED_GPIO_PIN|GREEN_GPIO_PIN|BLUE_GPIO_PIN;
+    GPIO_Init(RED_GPIO_PORT, &GPIO_InitStructure); 
+	GPIO_Init(GREEN_GPIO_PORT,&GPIO_InitStructure);
+	GPIO_Init(BLUE_GPIO_PORT,&GPIO_InitStructure);
 	LedColorSet(RED);
 }
 
 //关闭状态指示灯
 static void LedStatusOff(void)
 {
-	GPIOB->BSRR = GPIO_Pin_7;  //红，置为高电平，因为LED的公共极连的是阳极
-	GPIOB->BSRR = GPIO_Pin_8;  //绿
-	GPIOB->BSRR = GPIO_Pin_9;  //蓝
+	GPIOB->BSRR = RED_GPIO_PIN;  //红，置为高电平，因为LED的公共极连的是阳极
+	GPIOB->BSRR = GREEN_GPIO_PIN;  //绿
+	GPIOB->BSRR = BLUE_GPIO_PIN;  //蓝
 } 
 
 //LED灯颜色设置
 void LedColorSet(const uint8_t LedColor)
 {
-	LedStatusOff();
-	
+	LedStatusOff();	
 	switch(LedColor){
 		case RED:
 			RGB_RED;//红
@@ -66,23 +65,25 @@ void LedColorSet(const uint8_t LedColor)
 
 void LedBlink(uint8_t ledColor)
 {
-	if( blinkSpeedCount < BLINK_SPEED ){
-        blinkSpeedCount++;
-		if( blinkSpeedCount == BLINK_SPEED ){
-			blinkPeriodCount++;
-			blinkSpeedCount=0;
+	if( Blink_Speed_Count < BLINK_SPEED )
+	{
+        Blink_Speed_Count++;
+		if( Blink_Speed_Count == BLINK_SPEED )
+		{
+			Blink_Period_Count++;
+			Blink_Speed_Count=0;
 		}
 	}
-	
-	if( blinkPeriodCount >= BLINK_PERIOD - 2 && blinkPeriodCount <= BLINK_PERIOD){		//闪烁
-		if(blinkPeriodCount == BLINK_PERIOD){
-			blinkPeriodCount = 0;
+	if( Blink_Period_Count >= BLINK_PERIOD - 2 && Blink_Period_Count <= BLINK_PERIOD)
+	{		//闪烁
+		if(Blink_Period_Count == BLINK_PERIOD)
+		{
+			Blink_Period_Count = 0;
 		}
-		
-		LedColorSet(ledColor);
-		
-	}else {
+		LedColorSet(ledColor);		
+	}
+	else 
+	{
 		LedStatusOff();
 	}
 }
-
