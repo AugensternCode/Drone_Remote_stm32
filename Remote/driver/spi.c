@@ -7,6 +7,7 @@ void SPI1_Init(void)
 {	 
     SPI_InitTypeDef  SPI_InitStructure;
     GPIO_InitTypeDef GPIO_InitStructure;
+	//开启时钟
     RCC_APB2PeriphClockCmd(RCC_SPI1_PORT, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_SPI1_CLK, ENABLE);    
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);

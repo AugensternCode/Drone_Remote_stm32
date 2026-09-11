@@ -177,4 +177,3 @@ void NRF24L01_TX_Mode(void)
      
 	Set_NRF24L01_CE();                                          //CE为高,10us后启动发送
 }		  
-

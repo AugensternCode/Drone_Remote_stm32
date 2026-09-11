@@ -1,10 +1,7 @@
 #ifndef _pair_freq_h_
 #define _pair_freq_h_
-
-
-
 #include "stm32f10x.h"
-
+#define CHIP_ID_ADRESS  ((uint32_t)0x1FFFF7E8U)
 typedef enum{
 	NOT = 0,
 	STEP1,
