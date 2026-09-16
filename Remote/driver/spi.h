@@ -1,6 +1,7 @@
 #ifndef _SPI_H_
 #define _SPI_H_
 #include "stm32f10x.h"
+#define SPI_TIMEOUT 1000
 #define RCC_SPI1_CLK       RCC_APB2Periph_SPI1
 #define SPI1_GPIO_PORT     GPIOA
 #define RCC_SPI1_PORT      RCC_APB2Periph_GPIOA
@@ -12,5 +13,5 @@
 #define SPI1_MOSI_SOURCE   GPIO_PinSource7
 
 void SPI1_Init(void);			 
-uint8_t SPI1_RW(uint16_t TxData);
+uint8_t SPI1_RW(uint16_t TxData,uint8_t *pRx);
 #endif

@@ -63,28 +63,43 @@ uint8_t NRF24L01_Check(void)
 uint8_t NRF24L01_Write_Reg(uint8_t regaddr,uint8_t data)
 {
     uint8_t status;
-        
+    uint8_t rx_data;
+	uint8_t ret;
     Clr_NRF24L01_CSN();                                         //使能SPI传输
                                                                 
-    status =SPI1_RW(regaddr);                                   //发送寄存器号 
-    SPI1_RW(data);                                              //写入寄存器的值
-	                                                            
-    Set_NRF24L01_CSN();                                         //禁止SPI传输
-                                                                
-    return(status);       		                                //返回状态值
+    ret=SPI1_RW(regaddr,&status);                                   //发送寄存器号 
+    if(ret!=0)
+	{
+		Set_NRF24L01_CSN();
+		return 0xFF;
+	}
+	ret=SPI1_RW(data,&rx_data);                                              //写入寄存器的值	                                                            
+    if(ret!=0)
+	{
+		Set_NRF24L01_CSN();
+		return 0xFF;
+	}
+	Set_NRF24L01_CSN();                                         //禁止SPI传输                                                                
+    return status;       		                                //返回状态值
 }
 //读取SPI寄存器值 ，regaddr:要读的寄存器
 uint8_t NRF24L01_Read_Reg(uint8_t regaddr)
 {
-	uint8_t reg_val;
- 	Clr_NRF24L01_CSN();                                         //使能SPI传输	
-	                                                            
-  	SPI1_RW(regaddr);                                           //发送寄存器号
-  	reg_val=SPI1_RW(0XFF);                                      //读取寄存器内容
-                                                                
-  	Set_NRF24L01_CSN();                                         //禁止SPI传输	
-                                                                
-  	return(reg_val);                                            //返回状态值
+	uint8_t reg_val,Status,ret;
+ 	Clr_NRF24L01_CSN();                                         //使能SPI传输	                                                           
+  	ret=SPI1_RW(regaddr,&Status);                                           //发送寄存器号
+  	if(ret!=0){
+		Set_NRF24L01_CSN();
+		return 0xFF;
+	}
+	ret=SPI1_RW(0XFF,&reg_val);                                      //读取寄存器内容                                                                
+  	if(ret!=0)
+	{
+		Set_NRF24L01_CSN();
+		return 0xFF;
+	} 
+	Set_NRF24L01_CSN();
+  	return reg_val;                                            //返回状态值
 }	
 
 
@@ -94,13 +109,23 @@ uint8_t NRF24L01_Read_Reg(uint8_t regaddr)
 uint8_t NRF24L01_Read_Buf(uint8_t regaddr,uint8_t *pBuf,uint8_t datalen)
 {
 	uint8_t status,ctr;
-  	Clr_NRF24L01_CSN();                                         //使能SPI传输
-                                                                
-  	status=SPI1_RW(regaddr);                                    //发送寄存器值(位置),并读取状态值   	
- 	for(ctr=0;ctr<datalen;ctr++)                                
-          pBuf[ctr]=SPI1_RW(0XFF);                              //读出数据
-  	Set_NRF24L01_CSN();                                         //关闭SPI传输
-                                                                
+  	uint8_t ret;
+	Clr_NRF24L01_CSN();                                         //使能SPI传输                                                                
+  	ret=SPI1_RW(regaddr,&status);                                    //发送寄存器值(位置),并读取状态值   	
+ 	if(ret!=0)
+	{
+		Set_NRF24L01_CSN();
+		return 0xFF;
+	}
+	for(ctr=0;ctr<datalen;ctr++) 
+	{
+		ret=SPI1_RW(0XFF,&pBuf[ctr]);
+		if(ret!=0){
+			Set_NRF24L01_CSN();
+			return 0xFF;
+		}
+	}                                       //读出数据
+  	Set_NRF24L01_CSN();                                         //关闭SPI传输                                                                
   	return status;                                              //返回读到的状态值
 }
 
@@ -111,13 +136,23 @@ uint8_t NRF24L01_Write_Buf(uint8_t regaddr, uint8_t *pBuf, uint8_t datalen)
 {
 	uint8_t status,ctr;	
  	Clr_NRF24L01_CSN();                                         //使能SPI传输
-                                                                
-  	status = SPI1_RW(regaddr);                                  //发送寄存器值(位置),并读取状态值
-  	for(ctr=0; ctr<datalen; ctr++)                              
-          SPI1_RW(*pBuf++);                                     //写入数据	 
-                                                                
-  	Set_NRF24L01_CSN();                                         //关闭SPI传输
-                                                                
+    uint8_t ret,pBuf_Rx;                                                            
+  	ret = SPI1_RW(regaddr,&status);                                  //发送寄存器值(位置),并读取状态值
+  	if(ret!=0)
+	{
+		Set_NRF24L01_CSN();
+		return 0xFF;
+	}
+	for(ctr=0; ctr<datalen; ctr++)                              
+    {      
+		ret=SPI1_RW(*pBuf++,&pBuf_Rx);                                    //写入数据	 
+		if(ret!=0)
+		{
+			Set_NRF24L01_CSN();
+			return 0xFF;
+		}
+	}                                                           
+  	Set_NRF24L01_CSN();                                         //关闭SPI传输                                                               
   	return status;                                              //返回读到的状态值
 }				   
 //启动NRF24L01发送一次数据
@@ -148,9 +183,7 @@ uint8_t NRF24L01_TxPacket(uint8_t *sendBuff)
 		return TX_OK;
 	}
 	return 0xff;		//其他原因发送失败
-}
-
-				 
+}				 
 //该函数初始化NRF24L01到TX模式
 //设置TX地址,写TX数据宽度,设置RX自动应答的地址,填充TX发送数据,选择RF频道,波特率和LNA HCURR
 //PWR_UP,CRC使能

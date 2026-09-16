@@ -23,5 +23,5 @@ void Delay_us(uint32_t us)
 {
    uint32_t start=SysTick->VAL;
    uint32_t tick=us*72;   //72个时钟周期计数1us
-    while(((start-SysTick->VAL)&0x00FFFFFF)<tick);  //防溢出
+   while(((start-SysTick->VAL)&0x00FFFFFF)<tick);  //防溢出
 }

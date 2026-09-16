@@ -1,6 +1,4 @@
 #include "spi.h"
-
-
 //串行外设接口SPI的初始化，SPI配置成主模式							  
 //本例程选用SPI1对NRF24L01进行读写操作，先对SPI1进行初始化
 void SPI1_Init(void)
@@ -29,16 +27,16 @@ void SPI1_Init(void)
     SPI_Init(SPI1, &SPI_InitStructure);                                 //根据SPI_InitStruct中指定的参数初始化外设SPI2寄存器
     /* Enable SPI1  */
     SPI_Cmd(SPI1, ENABLE);                                              //使能SPI1外设	
-    SPI1_RW(0xff);                                                      //启动传输		 
+	uint8_t Rx_data;
+    SPI1_RW(0xff,&Rx_data);                                                      //启动传输		 
 }  
-uint8_t SPI1_RW(uint16_t TxData)                                        //SPI读写数据函数
+uint8_t SPI1_RW(uint16_t TxData,uint8_t *pRx)                                        //SPI读写数据函数
 {		
-    uint8_t retry=0;				 	
+    uint16_t retry=0;				 	
     /* Loop while DR register in not emplty */
     while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET)      //发送缓存标志位为空
     {
-        retry++;
-        if(retry>200)return 0;
+        if(++retry>SPI_TIMEOUT) return 1;
     }			  
     /* Send byte through the SPI1 peripheral */
     SPI_I2S_SendData(SPI1, TxData);                                     //通过外设SPI1发送一个数据
@@ -46,27 +44,9 @@ uint8_t SPI1_RW(uint16_t TxData)                                        //SPI读
     /* Wait to receive a byte */
     while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET)     //接收缓存标志位不为空
     {
-        retry++;
-        if(retry>200)return 0;
+        if(++retry>SPI_TIMEOUT) return 2;
     }	  						    
     /* Return the byte read from the SPI bus */
-    return SPI_I2S_ReceiveData(SPI1);                                    //通过SPI1返回接收数据
+    *pRx=SPI_I2S_ReceiveData(SPI1); 	
+	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
