@@ -9,31 +9,22 @@ extern Pair pair;
 //初始化24L01的IO口
 void NRF24L01_Init(void)
 {
-    GPIO_InitTypeDef GPIO_InitStructure;
-    
+    GPIO_InitTypeDef GPIO_InitStructure;    
     //CE    
-    RCC_APB2PeriphClockCmd(RCC_NRF24L01_CE, ENABLE);            //使能GPIO的时钟
+    RCC_APB2PeriphClockCmd(RCC_NRF24L01_CE | RCC_NRF24L01_CSN | RCC_NRF24L01_IRQ, ENABLE);            //使能GPIO的时钟
     GPIO_InitStructure.GPIO_Pin = NRF24L01_CE;                  //NRF24L01 模块片选信号
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;            //推挽输出
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
     GPIO_Init(GPIO_NRF24L01_CE, &GPIO_InitStructure);
-
     //CSN
-    RCC_APB2PeriphClockCmd(RCC_NRF24L01_CSN, ENABLE);           //使能GPIO的时钟
     GPIO_InitStructure.GPIO_Pin = NRF24L01_CSN;      
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;            //推挽输出
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
     GPIO_Init(GPIO_NRF24L01_CSN, &GPIO_InitStructure);
     Set_NRF24L01_CE();                                          //初始化时先拉高
     Set_NRF24L01_CSN();                                         //初始化时先拉高
-
-    //IRQ
-    RCC_APB2PeriphClockCmd(RCC_NRF24L01_IRQ, ENABLE);    
+    //IRQ 
     GPIO_InitStructure.GPIO_Pin = NRF24L01_IRQ;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU  ;             //上拉输入
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
     GPIO_Init(GPIO_NRF24L01_IRQ, &GPIO_InitStructure);
- 
     Clr_NRF24L01_CE(); 	                                        //使能24L01
     Set_NRF24L01_CSN();                                         //SPI片选取消	 
 }
