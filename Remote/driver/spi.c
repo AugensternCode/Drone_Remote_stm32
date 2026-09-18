@@ -10,10 +10,13 @@ void SPI1_Init(void)
     RCC_APB2PeriphClockCmd(RCC_SPI1_CLK, ENABLE);    
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
     /*!< Config  pins: SCK MISO MOSI*/
-    GPIO_InitStructure.GPIO_Pin = SPI1_SCK | SPI1_MISO | SPI1_MOSI;
+    GPIO_InitStructure.GPIO_Pin = SPI1_SCK | SPI1_MOSI;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
-    GPIO_Init(SPI1_GPIO_PORT, &GPIO_InitStructure);
+    GPIO_Init(SPI1_GPIO_PORT, &GPIO_InitStructure);	
+	GPIO_InitStructure.GPIO_Pin=SPI1_MISO;
+	GPIO_InitStructure.GPIO_Mode=GPIO_Mode_IN_FLOATING;
+	GPIO_Init(SPI1_GPIO_PORT,&GPIO_InitStructure);	
     /* SPI1 configuration */                                            //初始化SPI1结构体
     SPI_InitStructure.SPI_Mode = SPI_Mode_Master;                       //设置SPI1为主模式
     SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;  //SPI1设置为两线全双工
@@ -24,25 +27,26 @@ void SPI1_Init(void)
     SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_8;  //SPI波特率预分频值为8
     SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;                  //数据传输从MSB位开始 
     SPI_InitStructure.SPI_CRCPolynomial = 7;                            //CRC值计算的多项式
-    SPI_Init(SPI1, &SPI_InitStructure);                                 //根据SPI_InitStruct中指定的参数初始化外设SPI2寄存器
-    /* Enable SPI1  */
-    SPI_Cmd(SPI1, ENABLE);                                              //使能SPI1外设	
+    SPI_Init(SPI1, &SPI_InitStructure);                                 //根据SPI_InitStruct中指定的参数初始化外设SPI1寄存器
+    //使能SPI1外设
+    SPI_Cmd(SPI1, ENABLE);                                              	
 	uint8_t Rx_data;
-    SPI1_RW(0xff,&Rx_data);                                                      //启动传输		 
+    SPI1_RW(0xff,&Rx_data);     //启动传输		 
 }  
-uint8_t SPI1_RW(uint16_t TxData,uint8_t *pRx)                                        //SPI读写数据函数
+//SPI读写数据函数
+uint8_t SPI1_RW(uint16_t TxData,uint8_t *pRx) 
 {		
     uint16_t retry=0;				 	
-    /* Loop while DR register in not emplty */
-    while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET)      //发送缓存标志位为空
+    //发送缓存标志位为空
+    while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET)      
     {
         if(++retry>SPI_TIMEOUT) return 1;
     }			  
     /* Send byte through the SPI1 peripheral */
-    SPI_I2S_SendData(SPI1, TxData);                                     //通过外设SPI1发送一个数据
+    SPI_I2S_SendData(SPI1, TxData);    //通过外设SPI1发送一个数据
     retry=0;
     /* Wait to receive a byte */
-    while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET)     //接收缓存标志位不为空
+    while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET) //接收缓存标志位不为空
     {
         if(++retry>SPI_TIMEOUT) return 2;
     }	  						    

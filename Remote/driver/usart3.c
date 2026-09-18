@@ -1,17 +1,11 @@
 #include "usart3.h"
-
-
-
-
 //上外上位机串口初始化
 void usart3_init(u32 bound)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 	USART_InitTypeDef USART_InitStructure;
-
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB | RCC_APB2Periph_AFIO, ENABLE);
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
-
     //  TX
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
@@ -22,19 +16,15 @@ void usart3_init(u32 bound)
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
-
 	USART_InitStructure.USART_BaudRate = bound; 
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;                     //8bits
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;                          //stop bit is 1
 	USART_InitStructure.USART_Parity = USART_Parity_No;                             //no parity
 	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None; //no Hardware Flow Control
 	USART_InitStructure.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;                 //enable tx and rx
-	USART_Init(USART3, &USART_InitStructure);
-    
-	USART_ITConfig(USART3,USART_IT_RXNE,ENABLE);                                    //rx interrupt is enable
-    
-	USART_Cmd(USART3, ENABLE);    
-    
+	USART_Init(USART3, &USART_InitStructure);    
+	USART_ITConfig(USART3,USART_IT_RXNE,ENABLE);                                    //rx interrupt is enable    
+	USART_Cmd(USART3, ENABLE);       
 }
 
 u16 USART3_DMA1_MEM_LEN;   

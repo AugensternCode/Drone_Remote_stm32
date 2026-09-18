@@ -21,21 +21,23 @@ int main(void)
 	get_chip_id();
     SPI1_Init();
     NRF24L01_Init();
-    while(NRF24L01_Check()){
-			LedBlink(RED);
-			Delay_ms(10);
+    while(NRF24L01_Check())
+	{
+	    LedBlink(RED);
+		Delay_ms(10);
     }
     NRF24L01_TX_Mode();
     KeyInit();
-		ADC_Config();
-		timing_trigger_init();
-		OLED_Init();			//初始化OLED  
-		OLED_Clear(); 		
-       NVIC_config();                      //中断配置初始化
+	ADC_Config();
+	timing_trigger_init();
+	OLED_Init();			
+	OLED_Clear(); 		
+    NVIC_config();                     
     Delay_ms(100);
-    while(1){
-			WaitPairing();
-			key_info();
-			OledDisplayPairStatus();
+    while(1)
+	{
+		WaitPairing();
+		key_info();
+		OledDisplayPairStatus();
     }
 }
