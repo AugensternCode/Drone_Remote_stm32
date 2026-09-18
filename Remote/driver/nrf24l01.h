@@ -131,36 +131,28 @@
 #define NRF24L01_CE       GPIO_Pin_10
 #define GPIO_NRF24L01_CE  GPIOB
 #define RCC_NRF24L01_CE   RCC_APB2Periph_GPIOB
-
 //NRF24L01 SPI接口CS信号
 #define NRF24L01_CSN       GPIO_Pin_4
 #define GPIO_NRF24L01_CSN  GPIOA
 #define RCC_NRF24L01_CSN   RCC_APB2Periph_GPIOA
-
 #define NRF24L01_IRQ       GPIO_Pin_0	
 #define GPIO_NRF24L01_IRQ  GPIOB
 #define RCC_NRF24L01_IRQ   RCC_APB2Periph_GPIOB
-
 //NRF2401片选信号
-#define Clr_NRF24L01_CE()      GPIO_ResetBits(GPIO_NRF24L01_CE,NRF24L01_CE)
-#define Set_NRF24L01_CE()      GPIO_SetBits(GPIO_NRF24L01_CE,NRF24L01_CE)
-
+#define Clr_NRF24L01_CE()      GPIO_NRF24L01_CE->BRR=NRF24L01_CE
+#define Set_NRF24L01_CE()      GPIO_NRF24L01_CE->BSRR=NRF24L01_CE
 //SPI片选信号	
 #define Clr_NRF24L01_CSN()     GPIO_ResetBits(GPIO_NRF24L01_CSN,NRF24L01_CSN)
 #define Set_NRF24L01_CSN()     GPIO_SetBits(GPIO_NRF24L01_CSN,NRF24L01_CSN)
-
 #define READ_NRF24L01_IRQ()    GPIO_ReadInputDataBit(GPIO_NRF24L01_IRQ,NRF24L01_IRQ)
-
 //NRF24L01发送接收数据宽度定义
 #define TX_ADR_WIDTH    5                               //5字节的地址宽度
 #define RX_ADR_WIDTH    5                               //5字节的地址宽度
 #define TX_PLOAD_WIDTH  11                              //32字节的用户数据宽度
 #define RX_PLOAD_WIDTH  11                              //32字节的用户数据宽度
-
 void NRF24L01_Init(void);                                //NRF24l01初始化
 void NRF24L01_RX_Mode(void);                                      //配置为接收模式
 void NRF24L01_TX_Mode(void);                                      //配置为发送模式
-
 uint8_t NRF24L01_Write_Buf(uint8_t regaddr, uint8_t *pBuf, uint8_t datalen); //写数据区
 uint8_t NRF24L01_Read_Buf(uint8_t regaddr, uint8_t *pBuf, uint8_t datalen);  //读数据区		  
 uint8_t NRF24L01_Read_Reg(uint8_t regaddr);		                 //读寄存器
@@ -168,10 +160,4 @@ uint8_t NRF24L01_Write_Reg(uint8_t regaddr, uint8_t data);              //写寄
 uint8_t NRF24L01_Check(void);                                 //检查NRF24L01是否在位
 uint8_t NRF24L01_TxPacket(uint8_t *txbuf);                         //发送一个包的数据
 uint8_t NRF24L01_RxPacket(uint8_t *rxbuf);                         //接收一个包的数据
-
-
-
 #endif
-
-
-
