@@ -22,7 +22,7 @@ void SPI1_Init(void)
     SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;  //SPI1设置为两线全双工
     SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;                   //SPI发送接收8位帧结构
     SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;                          //串行时钟在不操作时，时钟为低电平
-    SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;                        //第一个时钟沿开始采样数据
+    SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;   //SPI_CPHA_1Edge 对应的是 CPHA = 0 第一个时钟沿开始采样数据
     SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;                           //NSS信号由软件（使用SSI位）管理
     SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_8;  //SPI波特率预分频值为8
     SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;                  //数据传输从MSB位开始 
