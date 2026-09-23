@@ -3,7 +3,7 @@
 #include "usart1.h"
 #include "nrf24l01.h"
 
-uint16_t ADC_value[4];
+volatile uint16_t ADC_value[4];
 /* 将 PA0~PA3 配置为模拟输入，对应 4 路 ADC 采样 */
 void adc_gpio_init(void)
 {
@@ -22,16 +22,14 @@ void adc_config(void)
 {
     ADC_InitTypeDef ADC_initStructure;
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1,ENABLE);
-	ADC_initStructure.ADC_ContinuousConvMode = DISABLE;					        // 单次转换模式，每次由定时器触发开始
-	ADC_initStructure.ADC_DataAlign = ADC_DataAlign_Right;		                // 数据右对齐
-	ADC_initStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_T4_CC4;	    // TIM4_CH4 作为外部触发源
+	RCC_ADCCLKConfig(RCC_PCLK2_Div8);
+	ADC_initStructure.ADC_ContinuousConvMode = DISABLE;		// 单次转换模式，每次由定时器触发开始
+	ADC_initStructure.ADC_DataAlign = ADC_DataAlign_Right;	// 数据右对齐
+	ADC_initStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_T4_CC4; // TIM4_CH4 作为外部触发源
 	ADC_initStructure.ADC_Mode = ADC_Mode_Independent;							
 	ADC_initStructure.ADC_NbrOfChannel = 4;										// 一次顺序采样 4 个通道
 	ADC_initStructure.ADC_ScanConvMode = ENABLE;		                        // 扫描模式
-	ADC_Init(ADC1,&ADC_initStructure);
-	ADC_Cmd(ADC1,ENABLE);
-	ADC_DMACmd(ADC1,ENABLE);
-	RCC_ADCCLKConfig(RCC_PCLK2_Div8);                                           // ADC 时钟分频
+	ADC_Init(ADC1,&ADC_initStructure); 	                                         
 	// 配置规则通道顺序和每个通道的采样时间。
 	ADC_RegularChannelConfig(ADC1,ADC_Channel_0,1,ADC_SampleTime_71Cycles5);	
 	ADC_RegularChannelConfig(ADC1,ADC_Channel_1,2,ADC_SampleTime_71Cycles5);
@@ -41,7 +39,8 @@ void adc_config(void)
 	while(ADC_GetCalibrationStatus(ADC1));		                                // 等待复位完成
 	ADC_StartCalibration(ADC1);					                                // 启动校准
 	while(ADC_GetCalibrationStatus(ADC1));		                                // 等待校准完成
-	ADC_ExternalTrigConvCmd(ADC1,ENABLE);	                                    // 使能外部触发
+	ADC_Cmd(ADC1,ENABLE);
+	ADC_ExternalTrigConvCmd(ADC1,ENABLE);	                                    // 使能外部触发	
 }
 
 void ADC_DMA_Config(void)
@@ -64,6 +63,7 @@ void ADC_DMA_Config(void)
 	// 一轮 DMA 搬运完成后产生中断，供上层处理最新采样值。
 	DMA_ITConfig(DMA1_Channel1,DMA_IT_TC,ENABLE);	
 	DMA_Cmd(DMA1_Channel1,ENABLE);	
+	ADC_DMACmd(ADC1,ENABLE);
 }
 
 
@@ -74,13 +74,3 @@ void ADC_Config(void)
     adc_config();
     ADC_DMA_Config();
 }
-
-
-
-
-
-
-
-
-
-

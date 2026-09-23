@@ -185,14 +185,14 @@ void NRF24L01_TX_Mode(void)
 	Clr_NRF24L01_CE();		 	
 	NRF24L01_Write_Reg(SETUP_AW, 0x03); // 设置地址宽度为 5bytes
 	NRF24L01_Write_Buf(SPI_WRITE_REG+TX_ADDR,(uint8_t*)pair.addr,TX_ADR_WIDTH);    //写TX节点地址 
-	NRF24L01_Write_Buf(SPI_WRITE_REG+RX_ADDR_P0,(uint8_t*)pair.addr,RX_ADR_WIDTH); //设置TX节点地址,主要为了接收ACK	  
+	NRF24L01_Write_Buf(SPI_WRITE_REG+RX_ADDR_P0,(uint8_t*)pair.addr,RX_ADR_WIDTH); //设置RX节点地址,主要为了接收ACK	  
 	NRF24L01_Write_Reg(SPI_WRITE_REG+FEATURE, 0x06 );//使能动态负载长度及带负载的ACK应答
 	NRF24L01_Write_Reg(SPI_WRITE_REG+DYNPD, 0x01); //使能接收管道0动态负载长度
 	NRF24L01_Write_Reg(SPI_WRITE_REG+EN_AA,0x01);               //使能通道0的自动应答    
 	NRF24L01_Write_Reg(SPI_WRITE_REG+EN_RXADDR,0x01);           //使能通道0的接收地址  
 	NRF24L01_Write_Reg(SPI_WRITE_REG+RF_CH,pair.freq_channel);  //设置RF通道
-	NRF24L01_Write_Reg(SPI_WRITE_REG+SETUP_RETR,0x1a);          //设置自动重发间隔时间:500us;最大自动重发次数:10次
-	NRF24L01_Write_Reg(SPI_WRITE_REG+RF_SETUP,0x07);			//设置射频数据率为1MHZ，发射功率为7dBm
-	NRF24L01_Write_Reg(SPI_WRITE_REG+CONFIG,0x0e);              //配置基本工作模式的参数;开启CRC，配置为发射模式,开启所有中断     
-	Set_NRF24L01_CE();                                          //CE为高,10us后启动发送
+	NRF24L01_Write_Reg(SPI_WRITE_REG+SETUP_RETR,0x1a);  //设置自动重发间隔时间:500us;最大自动重发次数:10次
+	NRF24L01_Write_Reg(SPI_WRITE_REG+RF_SETUP,0x07);  //设置射频数据率为1MHZ，发射功率为7dBm
+	NRF24L01_Write_Reg(SPI_WRITE_REG+CONFIG,0x0e);  //配置基本工作模式的参数;开启CRC，配置为发射模式,开启所有中断     
+	Set_NRF24L01_CE();                              //CE为高,10us后启动发送
 }		  

@@ -16,7 +16,7 @@ u8 rxPacketStatus;
 
 
 
-void analyze_packet(uint16_t *adcData)
+void analyze_packet(volatile uint16_t *adcData)
 {
     //固定翼遥控打舵方向数据转为 0 ~ 100
 		//油门转为 0 ~ 1000

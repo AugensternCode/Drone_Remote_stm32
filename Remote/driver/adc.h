@@ -11,7 +11,7 @@ void ADC_DMA_Config(void);
 void ADC_Config(void);
 
 
-extern uint16_t ADC_value[4];
+extern volatile uint16_t ADC_value[4];
 
 
 #endif
