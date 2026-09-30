@@ -100,27 +100,28 @@ uint8_t NRF24L01_Read_Reg(uint8_t regaddr)
 //在指定位置读出指定长度的数据
 //*pBuf:数据指针
 //返回值,此次读到的状态寄存器值 
-uint8_t NRF24L01_Read_Buf(uint8_t regaddr,uint8_t *pBuf,uint8_t datalen)
+uint8_t NRF24L01_Read_Buf(uint8_t regcmd,uint8_t *pBuf,uint8_t datalen)
 {
-	uint8_t status,ctr;
-  	uint8_t ret;
+	uint8_t status=NRF24L01_ERR,ctr;
+  	uint8_t ok=1;
 	Clr_NRF24L01_CSN();                                         //使能SPI传输                                                                
-  	ret=SPI1_RW(regaddr,&status);                                    //发送寄存器值(位置),并读取状态值   	
- 	if(ret!=0)
-	{
-		Set_NRF24L01_CSN();
-		return NRF24L01_ERR;
+  	if(SPI1_RW(regcmd,&status)!=0)                                    //发送寄存器值(位置),并读取状态值   	
+ 	{
+		ok=0;
 	}
-	for(ctr=0;ctr<datalen;ctr++) 
+	else
 	{
-		ret=SPI1_RW(0XFF,&pBuf[ctr]);
-		if(ret!=0){
-			Set_NRF24L01_CSN();
-			return NRF24L01_ERR;
+		while(datalen>0)
+		{
+			if(SPI1_RW(0xFF,pBuf++)!=0)
+			{
+				ok=0;
+				break;
+			}
 		}
-	}                                       //读出数据
-  	Set_NRF24L01_CSN();                                         //关闭SPI传输                                                                
-  	return status;                                              //返回读到的状态值
+	}
+	Set_NRF24L01_CSN();
+	return ok?status:NRF24L01_ERR;
 }
 
 //在指定位置写指定长度的数据
@@ -179,7 +180,7 @@ uint8_t NRF24L01_TxPacket(uint8_t *sendBuff)
 //设置TX地址,写TX数据宽度,设置RX自动应答的地址,填充TX发送数据,选择RF频道,波特率和LNA HCURR
 //PWR_UP,CRC使能
 //当CE变高后,即进入RX模式,并可以接收数据了		   
-//CE为高大于10us,则启动发送.	 
+//CE为高大于10us,则启动发送。
 void NRF24L01_TX_Mode(void)
 {														 
 	Clr_NRF24L01_CE();		 	

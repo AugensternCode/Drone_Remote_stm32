@@ -25,7 +25,7 @@ int main(void)
 	{
 	    LedBlink(RED);
 		Delay_ms(10);
-    }
+    } 
     NRF24L01_TX_Mode();
     KeyInit();
 	ADC_Config();
@@ -33,7 +33,7 @@ int main(void)
 	OLED_Init();			
 	OLED_Clear(); 		
     NVIC_config();                     
-    Delay_ms(100);
+    Delay_ms(100); 
     while(1)
 	{
 		WaitPairing();
