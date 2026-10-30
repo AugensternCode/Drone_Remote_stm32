@@ -3,6 +3,7 @@
 //本例程选用SPI1对NRF24L01进行读写操作，先对SPI1进行初始化
 void SPI1_Init(void)
 {	 
+    uint8_t Rx_data;
     SPI_InitTypeDef  SPI_InitStructure;
     GPIO_InitTypeDef GPIO_InitStructure;
 	//开启时钟
@@ -31,13 +32,13 @@ void SPI1_Init(void)
     SPI_Init(SPI1, &SPI_InitStructure);                                 //根据SPI_InitStruct中指定的参数初始化外设SPI1寄存器
     //使能SPI1外设
     SPI_Cmd(SPI1, ENABLE);                                              	
-	uint8_t Rx_data;
     SPI1_RW(0xff,&Rx_data);     //启动传输		 
 }  
 //SPI读写数据函数
 uint8_t SPI1_RW(uint16_t TxData,uint8_t *pRx) 
 {		
-    uint16_t retry=0;				 	
+    uint16_t retry=0;
+    if (pRx == 0) return 3;
     //发送缓存标志位不为空
     while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET)      
     {

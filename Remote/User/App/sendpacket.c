@@ -7,12 +7,19 @@
 #include "led.h"
 #include "pair_freq.h"
 #include "oled.h"
+#include "systick.h"
+#include <string.h>
 
 RemoteData tx = {0};
 extern Pair pair;
 
 static u8 rxPacket[TX_PLOAD_WIDTH] = {0};
-u8 rxPacketStatus;
+volatile u8 rxPacketStatus;
+volatile uint32_t lastValidAckTick;
+volatile uint32_t g_radio_tx_ok;
+volatile uint32_t g_radio_tx_fail;
+volatile uint32_t g_radio_tx_timeout;
+volatile uint8_t g_radio_last_result;
 
 
 
@@ -28,6 +35,8 @@ void analyze_packet(volatile uint16_t *adcData)
 
 void data_exchange(uint8_t *dateBuff)
 {
+    /* NOT: a zero probe without 0x8B cannot trigger Drone wait_pairing(). */
+    memset(dateBuff, 0, TX_PLOAD_WIDTH);
 	//发送新的地址和频点给飞机
 	if(pair.step == STEP1){
 			dateBuff[0] = 0xA8;					//帧头
@@ -68,9 +77,13 @@ void DMA1_Channel1_IRQHandler(void)
 		data_exchange(tx_dat);//数据装入发送数组
 
 		ret=NRF24L01_TxPacket(tx_dat);//发送数据
+		g_radio_last_result = ret;
 		if(ret == TX_OK){
+            ++g_radio_tx_ok;
 			LedColorSet(GREEN);		//发送成功绿灯亮
 		} else{
+            ++g_radio_tx_fail;
+            if (ret == NRF24L01_TIMEOUT) ++g_radio_tx_timeout;
 			LedBlink(YELLOW);		//信号丢失黄灯闪烁
 		}
 		
@@ -82,32 +95,53 @@ void DMA1_Channel1_IRQHandler(void)
 //接收数据包
 void NrfRxPacket(void)
 {
-	NRF24L01_Read_Buf(RD_RX_PLOAD,rxPacket,11);
-	if(rxPacket[0] == 0XAA && rxPacket[TX_PLOAD_WIDTH - 1] == 0XAC){//检查包头包尾
-		rxPacketStatus = 1;  
-	} else {
-		rxPacketStatus = 0;
-	}
-	
+    uint8_t status, fifo, width;
+    uint8_t packet[RX_PLOAD_WIDTH];
+    NrfInvalidateRx();
+    status = NRF24L01_Read_Reg(STATUS);
+    fifo = NRF24L01_Read_Reg(FIFO_STATUS);
+    if ((status == NRF24L01_ERR) || (fifo == NRF24L01_ERR) ||
+        ((status & RX_OK) == 0U) || ((fifo & 1U) != 0U)) {
+        return;
+    }
+    if ((NRF24L01_Read_Buf(R_RX_PL_WID, &width, 1) == NRF24L01_ERR) ||
+        (width != RX_PLOAD_WIDTH)) {
+        NRF24L01_Write_Buf(FLUSH_RX, NULL, 0);
+        return;
+    }
+    if (NRF24L01_Read_Buf(RD_RX_PLOAD, packet, width) == NRF24L01_ERR) {
+        NRF24L01_Write_Buf(FLUSH_RX, NULL, 0);
+        return;
+    }
+    if ((packet[0] == 0xAA) && (packet[RX_PLOAD_WIDTH - 1] == 0xAC)) {
+        memcpy(rxPacket, packet, sizeof(rxPacket));
+        lastValidAckTick = GetTick();
+        rxPacketStatus = 1;
+    }
+}
+
+void NrfInvalidateRx(void)
+{
+    rxPacketStatus = 0;
 }
 
 void DisplayPlaneInfo(void)
 {
 	static u8 clear = 0;
 	
-	if(clear != ((rxPacket[3]<<4)|rxPacket[4])){
+	if(clear != ((rxPacket[1]<<4)|rxPacket[2])){
 		OLED_Clear();
-		clear = (rxPacket[3]<<4)|rxPacket[4];
+		clear = (rxPacket[1]<<4)|rxPacket[2];
 	}
 		
-	if(rxPacket[3] == 0){		
+	if(rxPacket[1] == 0){
 		OledDisplayChinese(3,3,lock,2);//锁定
 	}
-	else if(rxPacket[3] == 1){		
+	else if(rxPacket[1] == 1){
 		OledDisplayChinese(3,3,unlock,2);//解锁
 	}
 	
-	if(rxPacket[4] == 1){		
+	if(rxPacket[2] == 1){
 		OledDisplayChinese(6,2,powerLow,3);//电量低
 	} 
 }
@@ -116,6 +150,9 @@ void DisplayPlaneInfo(void)
 void OledDisplayPairStatus(void)
 {
 	static u8 clearDetect = 0;
+    if ((uint32_t)(GetTick() - lastValidAckTick) >= 200U) {
+        NrfInvalidateRx();
+    }
 	if(clearDetect != ((rxPacketStatus<<4)|pair.step)){
 		OLED_Clear();
 		clearDetect = (rxPacketStatus<<4)|pair.step;

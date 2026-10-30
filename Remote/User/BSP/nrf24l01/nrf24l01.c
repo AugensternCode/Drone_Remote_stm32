@@ -3,15 +3,33 @@
 #include "systick.h"
 #include "pair_freq.h"
 #include "oled.h"
+#include "usart1.h"
 #include "sendpacket.h"
 #include <stddef.h>
 
 extern Pair pair;
 
+/* CMSIS in this project predates DWT_Type. CYCCNT also runs inside DMA ISR. */
+#define NRF_DWT_CTRL   (*((volatile uint32_t *)0xE0001000UL))
+#define NRF_DWT_CYCLES (*((volatile uint32_t *)0xE0001004UL))
+
+static void NRF24L01_Recover(void)
+{
+    Clr_NRF24L01_CE();
+    Set_NRF24L01_CSN();
+    NRF24L01_Write_Reg(SPI_WRITE_REG + STATUS, RX_OK | TX_OK | MAX_TX);
+    NRF24L01_Write_Buf(FLUSH_TX, NULL, 0);
+    NRF24L01_Write_Buf(FLUSH_RX, NULL, 0);
+    Set_NRF24L01_CSN();
+}
+
+
 //初始化24L01的IO口
 void NRF24L01_Init(void)
 {
-    GPIO_InitTypeDef GPIO_InitStructure;    
+    GPIO_InitTypeDef GPIO_InitStructure;
+    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+    NRF_DWT_CTRL |= 1UL; /* Enable without resetting another user's counter. */
     //CE    
     RCC_APB2PeriphClockCmd(RCC_NRF24L01_CE | RCC_NRF24L01_CSN | RCC_NRF24L01_IRQ, ENABLE);            //使能GPIO的时钟
     GPIO_InitStructure.GPIO_Pin = NRF24L01_CE;                  //NRF24L01 模块片选信号
@@ -38,6 +56,7 @@ uint8_t NRF24L01_Check(void)
 	uint8_t buf1[5];
 	uint8_t i,ret; 
 	ret=NRF24L01_Write_Buf(SPI_WRITE_REG+TX_ADDR,buf,5);            //写入5个字节的地址.
+	printf("这里都写不进去，更别说别的了\n");
 	if (ret == NRF24L01_ERR)         // SPI 写失败
         return 1;            // 认为 NRF24L01 不在位
 	ret=NRF24L01_Read_Buf(TX_ADDR,buf1,5);                          //读出写入的地址 
@@ -102,8 +121,15 @@ uint8_t NRF24L01_Read_Reg(uint8_t regaddr)
 //返回值,此次读到的状态寄存器值 
 uint8_t NRF24L01_Read_Buf(uint8_t regcmd,uint8_t *pBuf,uint8_t datalen)
 {
-	uint8_t status=NRF24L01_ERR,ctr;
+	uint8_t status=NRF24L01_ERR;
   	uint8_t ok=1;
+	//如果数组为空，但是数据长度不为0，则返回错误
+	if ((pBuf == NULL) && (datalen != 0U)) 
+	{
+		printf("数组为空，但是数据长度不为0，这不就是有问题吗？\n");
+		return NRF24L01_ERR;
+	}
+	
 	Clr_NRF24L01_CSN();                                         //使能SPI传输                                                                
   	if(SPI1_RW(regcmd,&status)!=0)                                    //发送寄存器值(位置),并读取状态值   	
  	{
@@ -113,11 +139,13 @@ uint8_t NRF24L01_Read_Buf(uint8_t regcmd,uint8_t *pBuf,uint8_t datalen)
 	{
 		while(datalen>0)
 		{
-			if(SPI1_RW(0xFF,pBuf++)!=0)
+			if(SPI1_RW(0xFF,pBuf)!=0)
 			{
 				ok=0;
 				break;
 			}
+            ++pBuf;
+            --datalen;
 		}
 	}
 	Set_NRF24L01_CSN();
@@ -132,7 +160,7 @@ uint8_t NRF24L01_Write_Buf(uint8_t regcmd, const uint8_t *pBuf, uint8_t datalen)
 	uint8_t status=NRF24L01_ERR;
 	uint8_t dummy;
 	uint8_t ok=1;
-	if(pBuf==NULL&datalen!=0) return NRF24L01_ERR;
+	if((pBuf == NULL) && (datalen != 0U)) return NRF24L01_ERR;
  	Clr_NRF24L01_CSN();  //使能SPI传输 
 	if(SPI1_RW(regcmd,&status)!=0)
 	{
@@ -158,33 +186,61 @@ uint8_t NRF24L01_Write_Buf(uint8_t regcmd, const uint8_t *pBuf, uint8_t datalen)
 //返回值:发送完成状况
 uint8_t NRF24L01_TxPacket(uint8_t *sendBuff)
 {
-    uint8_t state;   
-    Clr_NRF24L01_CE();  
-	NRF24L01_Write_Buf(WR_TX_PLOAD,sendBuff,TX_PLOAD_WIDTH);   
- 	Set_NRF24L01_CE();		//启动发送
-	while(READ_NRF24L01_IRQ()!=0);		//等待发送完成   
-	state=NRF24L01_Read_Reg(SPI_READ_REG+STATUS);		//读取状态寄存器的值	   
-	NRF24L01_Write_Reg(SPI_WRITE_REG+STATUS,state);		//清除TX_DS或MAX_RT中断标志 
-	NrfRxPacket();		//接收带负载的ACK数据	
-	if(state&MAX_TX)    //达到最大重发次数	
-	{		
-        NRF24L01_Write_Reg(FLUSH_TX,0xff);		//清除TX FIFO寄存器 	
-		return MAX_TX; 
-	}
-	if(state&TX_OK){		//发送完成
-		return TX_OK;
-	}
-	return 0xff;		//其他原因发送失败
-}				 
-//该函数初始化NRF24L01到TX模式
-//设置TX地址,写TX数据宽度,设置RX自动应答的地址,填充TX发送数据,选择RF频道,波特率和LNA HCURR
-//PWR_UP,CRC使能
-//当CE变高后,即进入RX模式,并可以接收数据了		   
-//CE为高大于10us,则启动发送。
+    uint8_t state;
+    uint32_t start;
+    uint32_t polls = 0;
+    uint32_t limit = (SystemCoreClock / 1000U) * NRF24L01_TX_TIMEOUT_MS;
+
+    NrfInvalidateRx();
+    Clr_NRF24L01_CE();
+    /* Never consume an earlier payload or completion flag. */
+    if ((sendBuff == NULL) ||
+        (NRF24L01_Write_Reg(SPI_WRITE_REG + STATUS,
+                          RX_OK | TX_OK | MAX_TX) == NRF24L01_ERR) ||
+        (NRF24L01_Write_Buf(FLUSH_RX, NULL, 0) == NRF24L01_ERR) ||
+        (NRF24L01_Write_Buf(FLUSH_TX, NULL, 0) == NRF24L01_ERR) ||
+        (NRF24L01_Write_Buf(WR_TX_PLOAD, sendBuff,
+                           TX_PLOAD_WIDTH) == NRF24L01_ERR)) {
+        NRF24L01_Recover();
+        return NRF24L01_ERR;
+    }
+
+    start = NRF_DWT_CYCLES;
+    Set_NRF24L01_CE();
+    while (READ_NRF24L01_IRQ() != 0) {
+        /* Fail-safe if debug/trace configuration stops CYCCNT. */
+        if (((uint32_t)(NRF_DWT_CYCLES - start) >= limit) ||
+            (++polls >= 1000000UL)) {
+            NRF24L01_Recover();
+            return NRF24L01_TIMEOUT;
+        }
+    }
+    Clr_NRF24L01_CE();
+    state = NRF24L01_Read_Reg(STATUS);
+    if ((state == NRF24L01_ERR) || ((state & MAX_TX) != 0U) ||
+        ((state & TX_OK) == 0U)) {
+        NRF24L01_Recover();
+        return (state != NRF24L01_ERR && (state & MAX_TX)) ?
+               MAX_TX : NRF24L01_ERR;
+    }
+
+    /* Read RX_DR before clearing the module interrupt flags. */
+    NrfRxPacket();
+    if (NRF24L01_Write_Reg(SPI_WRITE_REG + STATUS,
+                           RX_OK | TX_OK | MAX_TX) == NRF24L01_ERR) {
+        NrfInvalidateRx();
+        NRF24L01_Recover();
+        return NRF24L01_ERR;
+    }
+    Set_NRF24L01_CSN();
+    return TX_OK; /* Hardware ACK success; payload validity is independent. */
+}
+
+/* Configure PTX mode; always use W_REGISTER for register writes. */
 void NRF24L01_TX_Mode(void)
 {														 
 	Clr_NRF24L01_CE();		 	
-	NRF24L01_Write_Reg(SETUP_AW, 0x03); // 设置地址宽度为 5bytes
+	NRF24L01_Write_Reg(SPI_WRITE_REG+SETUP_AW, 0x03); // 设置地址宽度为 5bytes
 	NRF24L01_Write_Buf(SPI_WRITE_REG+TX_ADDR,(uint8_t*)pair.addr,TX_ADR_WIDTH);    //写TX节点地址 
 	NRF24L01_Write_Buf(SPI_WRITE_REG+RX_ADDR_P0,(uint8_t*)pair.addr,RX_ADR_WIDTH); //设置RX节点地址,主要为了接收ACK	  
 	NRF24L01_Write_Reg(SPI_WRITE_REG+FEATURE, 0x06 );//使能动态负载长度及带负载的ACK应答

@@ -13,6 +13,7 @@
 #include "oled.h"
 int main(void)
 {
+    uint8_t radio_attempt;
     SystemInit();                       //系统初始化    
     SysTick_init();                     //系统滴答定时器初始化
     LedInit();                         //状态灯初始化
@@ -21,11 +22,15 @@ int main(void)
 	get_chip_id();
     SPI1_Init();
     NRF24L01_Init();
-    while(NRF24L01_Check())
+    for(radio_attempt = 0; radio_attempt < 3U; ++radio_attempt)
 	{
+	    if(NRF24L01_Check() == 0U) break;
 	    LedBlink(RED);
 		Delay_ms(10);
     } 
+    if(radio_attempt == 3U) {
+        printf("NRF24L01 unavailable; continuing with bounded TX errors\r\n");
+    }
     NRF24L01_TX_Mode();
     KeyInit();
 	ADC_Config();

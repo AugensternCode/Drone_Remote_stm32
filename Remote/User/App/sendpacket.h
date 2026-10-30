@@ -16,6 +16,13 @@ typedef struct
 
 extern RemoteData tx;
 void NrfRxPacket(void);
+void NrfInvalidateRx(void);
+/* Stage-0 diagnostics, updated only by the DMA send path. */
+extern volatile uint32_t g_radio_tx_ok;
+extern volatile uint32_t g_radio_tx_fail;
+extern volatile uint32_t g_radio_tx_timeout;
+extern volatile uint8_t g_radio_last_result;
+extern volatile uint32_t lastValidAckTick;
 void OledDisplayPairStatus(void);
 
 #endif

@@ -1,4 +1,5 @@
 #include "adc.h"
+#include "systick.h"
 #include "led.h"
 #include "usart1.h"
 #include "nrf24l01.h"
@@ -35,11 +36,12 @@ void adc_config(void)
 	ADC_RegularChannelConfig(ADC1,ADC_Channel_1,2,ADC_SampleTime_71Cycles5);
 	ADC_RegularChannelConfig(ADC1,ADC_Channel_2,3,ADC_SampleTime_71Cycles5);
 	ADC_RegularChannelConfig(ADC1,ADC_Channel_3,4,ADC_SampleTime_71Cycles5);	
+	ADC_Cmd(ADC1,ENABLE);
+    Delay_ms(1); /* ADC power-up stabilization before calibration. */
 	ADC_ResetCalibration(ADC1);	                                                // 复位校准
-	while(ADC_GetCalibrationStatus(ADC1));		                                // 等待复位完成
+	while(ADC_GetResetCalibrationStatus(ADC1));		                                // 等待复位完成
 	ADC_StartCalibration(ADC1);					                                // 启动校准
 	while(ADC_GetCalibrationStatus(ADC1));		                                // 等待校准完成
-	ADC_Cmd(ADC1,ENABLE);
 	ADC_ExternalTrigConvCmd(ADC1,ENABLE);	                                    // 使能外部触发	
 }
 

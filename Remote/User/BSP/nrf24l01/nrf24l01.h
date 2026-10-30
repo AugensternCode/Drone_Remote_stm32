@@ -10,6 +10,7 @@
 #define SPI_READ_REG    0x00  //读配置寄存器,低5位为寄存器地址
 #define SPI_WRITE_REG   0x20  //写配置寄存器,低5位为寄存器地址
 #define RD_RX_PLOAD     0x61  //读RX有效数据,1~32字节
+#define R_RX_PL_WID     0x60  /* Read dynamic RX payload width. */
 #define WR_TX_PLOAD     0xA0  //写TX有效数据,1~32字节
 #define FLUSH_TX        0xE1  //清除TX FIFO寄存器.发射模式下用
 #define FLUSH_RX        0xE2  //清除RX FIFO寄存器.接收模式下用
@@ -52,6 +53,8 @@
 #define DYNPD			0x1C		//使能管道动态负载长度
 /**********************************************************************************************************/
 #define NRF24L01_ERR 0xFF
+#define NRF24L01_TIMEOUT 0xFE
+#define NRF24L01_TX_TIMEOUT_MS 15U
 //NRF24L01控制操作
 #define NRF24L01_CE       GPIO_Pin_10
 #define GPIO_NRF24L01_CE  GPIOB
