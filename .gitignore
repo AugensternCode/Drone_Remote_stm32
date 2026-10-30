@@ -1,6 +1,8 @@
 # Keil build output
 /Drone/USER/Objects/
 /Drone/USER/Listings/
+/Remote/Project/Objects/
+/Remote/Project/Listings/
 /Remote/out_file/
 /Remote/user/Listings/
 
